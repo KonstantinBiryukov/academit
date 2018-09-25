@@ -3,6 +3,6 @@ public class Vector1 {
 
         int vector = 1;
         String s = "something is here";
-        int vector2 = 5;
+        int vector2 = 3;
     }
 }
