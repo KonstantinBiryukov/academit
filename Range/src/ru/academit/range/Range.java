@@ -10,8 +10,6 @@ package ru.academit.range;
 public class Range {
     private double from;
     private double to;
-    private double from2;
-    private double to2;
 
     public Range(double from, double to) {
         this.from = from;
