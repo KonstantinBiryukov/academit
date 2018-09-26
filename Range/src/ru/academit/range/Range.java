@@ -1,4 +1,5 @@
-//       Создать свой класс Range (числовой диапазон). В нём:
+package ru.academit.range;
+//       Создать свой класс ru.academit.range.Range (числовой диапазон). В нём:
 //        1. Объявить два вещественных поля from, to
 //        2. Описать конструктор, при помощи которого заполняются поля from, to
 //        3. Функция для вычисления длины интервала
@@ -7,9 +8,10 @@
 //        • После этого написать небольшую программу с использованием этого класса
 
 public class Range {
-
     private double from;
     private double to;
+    private double from2;
+    private double to2;
 
     public Range(double from, double to) {
         this.from = from;
@@ -32,18 +34,11 @@ public class Range {
         return to;
     }
 
-    public double getRange() {
+    public double getLength() {
         return to - from;
     }
 
     public boolean isInside(double x) {
         return x >= from && x <= to;
-    }
-
-    public static void main(String[] args) {
-        Range range = new Range(5, 10);
-        System.out.printf("%.1f, %.1f %n", range.getFrom(), range.getTo());
-        System.out.println(range.getRange());
-        System.out.println(range.isInside(9));
     }
 }
