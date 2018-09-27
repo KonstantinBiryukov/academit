@@ -7,6 +7,19 @@ package ru.academit.range;
 //        и возвращает boolean – результат проверки того, принадлежит ли число диапазону
 //        • После этого написать небольшую программу с использованием этого класса
 
+// AdvancedRange
+// Написать методы:
+//• Вычисление длины интервала
+//• Получение интервала-пересечения двух интервалов. Если пересечения нет, выдать null.
+// Если есть, то выдать новый диапазон с соответствующими концами
+//• Получение объединения двух интервалов. Может получиться 1 или 2 отдельных куска
+//• Получение разности двух интервалов. Может получиться 1 или 2 отдельных куска
+//• Еще пояснения на следующем слайде
+// • В операциях где может получиться 2 куска выдавайте массив объектов Range
+//• Операции пересечения, объединения и разности – по смыслу такие же как для множеств,
+// см. литературу по множествам
+//• Разность нужна несимметричная – из первого интервала вычитаем второй
+
 public class Range {
     private double from;
     private double to;
@@ -32,11 +45,44 @@ public class Range {
         return to;
     }
 
-    public double getLength() {
-        return to - from;
+    private boolean isInside(double x) {
+        return x >= from && x <= to;
     }
 
-    public boolean isInside(double x) {
-        return x >= from && x <= to;
+    public double[] getIntersectionRange(double fromNew, double toNew) {
+        if (isInside(fromNew) && isInside(toNew)) {
+            return new double[]{fromNew, toNew};
+        } else if (isInside(fromNew) && !isInside(toNew)) {
+            return new double[]{fromNew, to};
+        } else if (!isInside(fromNew) && isInside(toNew)) {
+            return new double[]{from, toNew};
+        }
+
+        if (isInside(from) && isInside(to)) {
+            return new double[]{from, to};
+        } else if (isInside(from) && !isInside(to)) {
+            return new double[]{from, toNew};
+        } else if (!isInside(from) && isInside(to)) {
+            return new double[]{fromNew, to};
+        }
+
+        return null;
+    }
+
+    public double[] getUnionRange(double fromNew, double toNew) {
+        double min, max;
+        if (from < fromNew) {
+            min = from;
+        } else {
+            min = fromNew;
+        }
+
+        if (to > toNew) {
+            max = to;
+        } else {
+            max = toNew;
+        }
+
+        return new double[]{min, max};
     }
 }
