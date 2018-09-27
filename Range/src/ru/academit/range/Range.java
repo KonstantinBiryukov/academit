@@ -58,14 +58,6 @@ public class Range {
             return new double[]{from, toNew};
         }
 
-        if (isInside(from) && isInside(to)) {
-            return new double[]{from, to};
-        } else if (isInside(from) && !isInside(to)) {
-            return new double[]{from, toNew};
-        } else if (!isInside(from) && isInside(to)) {
-            return new double[]{fromNew, to};
-        }
-
         return null;
     }
 
