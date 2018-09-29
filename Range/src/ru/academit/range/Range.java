@@ -15,7 +15,7 @@ package ru.academit.range;
 //• Получение объединения двух интервалов. Может получиться 1 или 2 отдельных куска
 //• Получение разности двух интервалов. Может получиться 1 или 2 отдельных куска
 //• Еще пояснения на следующем слайде
-// • В операциях где может получиться 2 куска выдавайте массив объектов Range
+//• В операциях где может получиться 2 куска выдавайте массив объектов Range
 //• Операции пересечения, объединения и разности – по смыслу такие же как для множеств,
 // см. литературу по множествам
 //• Разность нужна несимметричная – из первого интервала вычитаем второй
@@ -57,24 +57,32 @@ public class Range {
         } else if (!isInside(fromNew) && isInside(toNew)) {
             return new double[]{from, toNew};
         }
-
         return null;
     }
 
     public double[] getUnionRange(double fromNew, double toNew) {
-        double min, max;
-        if (from < fromNew) {
-            min = from;
+        if (fromNew - to > 0) {
+            return new double[]{from, to, fromNew, toNew};
+        } else if (from - toNew > 0) {
+            return new double[]{fromNew, toNew, from, to};
         } else {
-            min = fromNew;
+            double min, max;
+            if (from < fromNew) {
+                min = from;
+            } else {
+                min = fromNew;
+            }
+            if (to > toNew) {
+                max = to;
+            } else {
+                max = toNew;
+            }
+            return new double[]{min, max};
         }
+    }
 
-        if (to > toNew) {
-            max = to;
-        } else {
-            max = toNew;
-        }
+    public double[] getDifferenceRange(double fromNew, double toNew) {
+        getIntersectionRange(fromNew, toNew);
 
-        return new double[]{min, max};
     }
 }
