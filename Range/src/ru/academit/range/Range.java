@@ -58,10 +58,10 @@ public class Range {
     // не использовать isInside
 
     public Range getIntersectionRange(Range rangeNew) {
-        double from = this.from;
-        double fromNew = rangeNew.from;
-        double to = this.to;
-        double toNew = rangeNew.to;
+        double from = this.getFrom();
+        double to = this.getTo();
+        double fromNew = rangeNew.getFrom();
+        double toNew = rangeNew.getTo();
 
         if (isInside(fromNew) && isInside(toNew)) {
             return new Range(fromNew, toNew);
@@ -74,10 +74,10 @@ public class Range {
     }
 
     public Range[] getUnionRange(Range rangeNew) {
-        double from = this.from;
-        double fromNew = rangeNew.from;
-        double to = this.to;
-        double toNew = rangeNew.to;
+        double from = this.getFrom();
+        double to = this.getTo();
+        double fromNew = rangeNew.getFrom();
+        double toNew = rangeNew.getTo();
 
         if (fromNew - to > 0) {
             return new Range[]{new Range(from, to), new Range(fromNew, toNew)};
