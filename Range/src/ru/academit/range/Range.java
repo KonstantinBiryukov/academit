@@ -57,34 +57,32 @@ public class Range {
 // double y = rangeNew.from; // обращение к range переданного через аргумент
     // не использовать isInside
 
-
-    public double[] getIntersectionRange(Range rangeNew) {
+    public Range getIntersectionRange(Range rangeNew) {
         double from = this.from;
         double fromNew = rangeNew.from;
         double to = this.to;
         double toNew = rangeNew.to;
 
         if (isInside(fromNew) && isInside(toNew)) {
-            return new double[]{fromNew, toNew};
+            return new Range(fromNew, toNew);
         } else if (isInside(fromNew) && !isInside(toNew)) {
-            return new double[]{fromNew, to};
+            return new Range(fromNew, to);
         } else if (!isInside(fromNew) && isInside(toNew)) {
-            return new double[]{from, toNew};
+            return new Range(from, toNew);
         }
         return null;
     }
 
-
-    public double[] getUnionRange(Range rangeNew) {
+    public Range[] getUnionRange(Range rangeNew) {
         double from = this.from;
         double fromNew = rangeNew.from;
         double to = this.to;
         double toNew = rangeNew.to;
 
         if (fromNew - to > 0) {
-            return new double[]{from, to, fromNew, toNew};
+            return new Range[]{new Range(from, to), new Range(fromNew, toNew)};
         } else if (from - toNew > 0) {
-            return new double[]{fromNew, toNew, from, to};
+            return new Range[]{new Range(fromNew, toNew), new Range(from, to)};
         } else {
             double min, max;
             if (from < fromNew) {
@@ -97,17 +95,7 @@ public class Range {
             } else {
                 max = toNew;
             }
-            return new double[]{min, max};
+            return new Range[]{new Range(min, max)};
         }
     }
-
-
-//    public Range[] getDifferenceRange(Range rangeNew) {
-//        double from = this.from;
-//        double fromNew = rangeNew.from;
-//        double to = this.to;
-//        double toNew = rangeNew.to;
-//
-//
-//    }
 }
