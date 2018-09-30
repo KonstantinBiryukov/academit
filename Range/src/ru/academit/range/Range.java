@@ -45,11 +45,25 @@ public class Range {
         return to;
     }
 
+    public double getLength() {
+        return to - from;
+    }
+
     private boolean isInside(double x) {
         return x >= from && x <= to;
     }
+// получать массив объектов this и тот который передадут, массив Range выдавать
+// double x = this.from; // обращение к текущему range
+// double y = rangeNew.from; // обращение к range переданного через аргумент
+    // не использовать isInside
 
-    public double[] getIntersectionRange(double fromNew, double toNew) {
+
+    public double[] getIntersectionRange(Range rangeNew) {
+        double from = this.from;
+        double fromNew = rangeNew.from;
+        double to = this.to;
+        double toNew = rangeNew.to;
+
         if (isInside(fromNew) && isInside(toNew)) {
             return new double[]{fromNew, toNew};
         } else if (isInside(fromNew) && !isInside(toNew)) {
@@ -60,7 +74,13 @@ public class Range {
         return null;
     }
 
-    public double[] getUnionRange(double fromNew, double toNew) {
+
+    public double[] getUnionRange(Range rangeNew) {
+        double from = this.from;
+        double fromNew = rangeNew.from;
+        double to = this.to;
+        double toNew = rangeNew.to;
+
         if (fromNew - to > 0) {
             return new double[]{from, to, fromNew, toNew};
         } else if (from - toNew > 0) {
@@ -81,8 +101,13 @@ public class Range {
         }
     }
 
-    public double[] getDifferenceRange(double fromNew, double toNew) {
-        getIntersectionRange(fromNew, toNew);
 
-    }
+//    public Range[] getDifferenceRange(Range rangeNew) {
+//        double from = this.from;
+//        double fromNew = rangeNew.from;
+//        double to = this.to;
+//        double toNew = rangeNew.to;
+//
+//
+//    }
 }
