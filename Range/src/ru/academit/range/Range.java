@@ -20,6 +20,9 @@ package ru.academit.range;
 // см. литературу по множествам
 //• Разность нужна несимметричная – из первого интервала вычитаем второй
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Range {
     private double from;
     private double to;
@@ -73,6 +76,7 @@ public class Range {
         return null;
     }
 
+
     public Range[] getUnionRange(Range rangeNew) {
         double from = this.getFrom();
         double to = this.getTo();
@@ -95,7 +99,7 @@ public class Range {
             } else {
                 max = toNew;
             }
-            return new Range[]{new Range(min, max)};
+            return new Range[]{new Range(0, 0), new Range(min, max)};
         }
     }
 }
