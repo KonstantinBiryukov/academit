@@ -20,9 +20,6 @@ package ru.academit.range;
 // см. литературу по множествам
 //• Разность нужна несимметричная – из первого интервала вычитаем второй
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 public class Range {
     private double from;
     private double to;
@@ -55,51 +52,59 @@ public class Range {
     private boolean isInside(double x) {
         return x >= from && x <= to;
     }
-// получать массив объектов this и тот который передадут, массив Range выдавать
-// double x = this.from; // обращение к текущему range
-// double y = rangeNew.from; // обращение к range переданного через аргумент
-    // не использовать isInside
 
-    public Range getIntersectionRange(Range rangeNew) {
-        double from = this.getFrom();
-        double to = this.getTo();
-        double fromNew = rangeNew.getFrom();
-        double toNew = rangeNew.getTo();
+    public Range getIntersection(Range rangeNew) {
+        double from = this.from;
+        double to = this.to;
+        double fromNew = rangeNew.from;
+        double toNew = rangeNew.to;
 
-        if (isInside(fromNew) && isInside(toNew)) {
-            return new Range(fromNew, toNew);
-        } else if (isInside(fromNew) && !isInside(toNew)) {
+        if ((fromNew >= from && fromNew <= to) && (toNew >= from && toNew <= to)) {
+            return rangeNew;
+        } else if ((fromNew <= from && fromNew <= to) && (toNew >= from && toNew >= to)) {
+            return this;
+        } else if ((fromNew >= from && fromNew <= to) && !(toNew >= from && toNew <= to)) {
             return new Range(fromNew, to);
-        } else if (!isInside(fromNew) && isInside(toNew)) {
+        } else if (!(fromNew >= from && fromNew <= to) && (toNew >= from && toNew <= to)) {
             return new Range(from, toNew);
         }
-        return null;
+        return new Range(0, 0);
     }
 
+    public Range[] getUnion(Range range) {
+        double from = this.from;
+        double to = this.to;
+        double fromNew = range.from;
+        double toNew = range.to;
 
-    public Range[] getUnionRange(Range rangeNew) {
-        double from = this.getFrom();
-        double to = this.getTo();
-        double fromNew = rangeNew.getFrom();
-        double toNew = rangeNew.getTo();
-
-        if (fromNew - to > 0) {
+        if (fromNew > to) {
             return new Range[]{new Range(from, to), new Range(fromNew, toNew)};
-        } else if (from - toNew > 0) {
+        } else if (from > toNew) {
             return new Range[]{new Range(fromNew, toNew), new Range(from, to)};
         } else {
-            double min, max;
-            if (from < fromNew) {
-                min = from;
-            } else {
-                min = fromNew;
-            }
-            if (to > toNew) {
-                max = to;
-            } else {
-                max = toNew;
-            }
-            return new Range[]{new Range(0, 0), new Range(min, max)};
+            double min = Math.min(from, fromNew);
+            double max = Math.max(to, toNew);
+            return new Range[]{new Range(min, max)};
         }
+    }
+
+    public Range[] getDifference(Range range) {
+        double from = this.from;
+        double to = this.to;
+        double fromNew = range.from;
+        double toNew = range.to;
+
+        if (from < fromNew && to > fromNew && toNew > to) { // partial difference
+            return new Range[]{new Range(from, fromNew - 1), new Range(to + 1, toNew)};
+        } else if (from > fromNew && to > fromNew && toNew < to && from < toNew) { // partial difference
+            return new Range[]{new Range(fromNew, from - 1), new Range(toNew + 1, to)};
+        } else if (from > toNew || to > toNew) { // full difference
+            return new Range[]{this, range};
+        } else if (from < fromNew && to > toNew && from > toNew && to < fromNew) { // full intersection
+            return new Range[]{new Range(from, fromNew - 1), new Range(toNew + 1, to)};
+        } else if (from > fromNew && to < toNew && from < toNew && to > fromNew) { // full intersection
+            return new Range[]{new Range(fromNew, from - 1), new Range(to + 1, toNew)};
+        }
+        return new Range[]{new Range(0, 0)}; // no difference
     }
 }
