@@ -85,7 +85,7 @@ public class Range {
         }
     }
 
-    // несиммитричная разность
+    // несимметричная разность
     public Range[] getDifference(Range range) {
         double from = this.from;
         double to = this.to;
@@ -94,12 +94,10 @@ public class Range {
         double differenceBoundary1 = toNew + 1;
         double differenceBoundary2 = fromNew - 1;
 
-        if (to > fromNew) {
-            if (to > toNew && from > fromNew) {
-                return new Range[]{new Range(differenceBoundary1, to)};
-            } else if (to < toNew && from < fromNew) {
-                return new Range[]{new Range(from, differenceBoundary2)};
-            }
+        if (to > fromNew && to > toNew && from > fromNew) {
+            return new Range[]{new Range(differenceBoundary1, to)};
+        } else if (to > fromNew && to < toNew && from < fromNew) {
+            return new Range[]{new Range(from, differenceBoundary2)};
         } else if (fromNew > from && toNew < to) {
             return new Range[]{new Range(from, differenceBoundary2), new Range(differenceBoundary1, to)};
         } else if (from > fromNew && to < toNew) { // no unique numbers in set
@@ -107,6 +105,6 @@ public class Range {
         } else if (fromNew > to || from > toNew) { // totally unique set
             return new Range[]{new Range(from, to)};
         }
-        return null; // no difference
+        return null;
     }
 }
