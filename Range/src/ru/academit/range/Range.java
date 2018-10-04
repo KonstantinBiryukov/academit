@@ -53,22 +53,19 @@ public class Range {
         return x >= from && x <= to;
     }
 
-    public Range getIntersection(Range rangeNew) {
+    public Range getIntersection(Range range) {
         double from = this.from;
         double to = this.to;
-        double fromNew = rangeNew.from;
-        double toNew = rangeNew.to;
+        double fromNew = range.from;
+        double toNew = range.to;
 
-        if ((fromNew >= from && fromNew <= to) && (toNew >= from && toNew <= to)) {
-            return rangeNew;
-        } else if ((fromNew <= from && fromNew <= to) && (toNew >= from && toNew >= to)) {
-            return this;
-        } else if ((fromNew >= from && fromNew <= to) && !(toNew >= from && toNew <= to)) {
-            return new Range(fromNew, to);
-        } else if (!(fromNew >= from && fromNew <= to) && (toNew >= from && toNew <= to)) {
-            return new Range(from, toNew);
+        if (fromNew > to || from > toNew) {
+            return null;
+        } else {
+            double min = Math.max(from, fromNew);
+            double max = Math.min(to, toNew);
+            return new Range(min, max);
         }
-        return new Range(0, 0);
     }
 
     public Range[] getUnion(Range range) {
@@ -88,23 +85,28 @@ public class Range {
         }
     }
 
+    // несиммитричная разность
     public Range[] getDifference(Range range) {
         double from = this.from;
         double to = this.to;
         double fromNew = range.from;
         double toNew = range.to;
+        double differenceBoundary1 = toNew + 1;
+        double differenceBoundary2 = fromNew - 1;
 
-        if (from < fromNew && to > fromNew && toNew > to) { // partial difference
-            return new Range[]{new Range(from, fromNew - 1), new Range(to + 1, toNew)};
-        } else if (from > fromNew && to > fromNew && toNew < to && from < toNew) { // partial difference
-            return new Range[]{new Range(fromNew, from - 1), new Range(toNew + 1, to)};
-        } else if (from > toNew || to > toNew) { // full difference
-            return new Range[]{this, range};
-        } else if (from < fromNew && to > toNew && from > toNew && to < fromNew) { // full intersection
-            return new Range[]{new Range(from, fromNew - 1), new Range(toNew + 1, to)};
-        } else if (from > fromNew && to < toNew && from < toNew && to > fromNew) { // full intersection
-            return new Range[]{new Range(fromNew, from - 1), new Range(to + 1, toNew)};
+        if (to > fromNew) {
+            if (to > toNew && from > fromNew) {
+                return new Range[]{new Range(differenceBoundary1, to)};
+            } else if (to < toNew && from < fromNew) {
+                return new Range[]{new Range(from, differenceBoundary2)};
+            }
+        } else if (fromNew > from && toNew < to) {
+            return new Range[]{new Range(from, differenceBoundary2), new Range(differenceBoundary1, to)};
+        } else if (from > fromNew && to < toNew) { // no unique numbers in set
+            return new Range[0];
+        } else if (fromNew > to || from > toNew) { // totally unique set
+            return new Range[]{new Range(from, to)};
         }
-        return new Range[]{new Range(0, 0)}; // no difference
+        return null; // no difference
     }
 }
