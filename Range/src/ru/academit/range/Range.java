@@ -59,7 +59,7 @@ public class Range {
         double fromNew = range.from;
         double toNew = range.to;
 
-        if (fromNew > to || from > toNew) {
+        if (fromNew >= to || from >= toNew) {
             return null;
         } else {
             double min = Math.max(from, fromNew);
@@ -91,20 +91,18 @@ public class Range {
         double to = this.to;
         double fromNew = range.from;
         double toNew = range.to;
-        double differenceBoundary1 = toNew + 1;
-        double differenceBoundary2 = fromNew - 1;
 
         if (to > fromNew && to > toNew && from > fromNew) {
-            return new Range[]{new Range(differenceBoundary1, to)};
+            return new Range[]{new Range(toNew, to)};
         } else if (to > fromNew && to < toNew && from < fromNew) {
-            return new Range[]{new Range(from, differenceBoundary2)};
+            return new Range[]{new Range(from, fromNew)};
         } else if (fromNew > from && toNew < to) {
-            return new Range[]{new Range(from, differenceBoundary2), new Range(differenceBoundary1, to)};
-        } else if (from > fromNew && to < toNew) { // no unique numbers in set
+            return new Range[]{new Range(from, fromNew), new Range(toNew, to)};
+        } else if (from > fromNew && to < toNew) {
             return new Range[0];
-        } else if (fromNew > to || from > toNew) { // totally unique set
+        } else if (fromNew >= to || from >= toNew) { // totally unique set
             return new Range[]{new Range(from, to)};
         }
-        return null;
+        return new Range[0];
     }
 }
