@@ -5,8 +5,8 @@ import ru.academit.range.Range;
 public class Main {
     public static void main(String[] args) {
 
-        Range range = new Range(2, 10);
-        Range rangeNew = new Range(8, 14);
+        Range range = new Range(5, 10);
+        Range rangeNew = new Range(4, 11);
         Range intersectionRange = range.getIntersection(rangeNew);
         if (intersectionRange == null) {
             System.out.println("null");

@@ -92,16 +92,16 @@ public class Range {
         double fromNew = range.from;
         double toNew = range.to;
 
-        if (to > fromNew && to > toNew && from > fromNew) {
+        if (fromNew >= to || from >= toNew) { // totally unique set
+            return new Range[]{new Range(from, to)};
+        } else if (to > fromNew && to >= toNew && from > fromNew) {
             return new Range[]{new Range(toNew, to)};
-        } else if (to > fromNew && to < toNew && from < fromNew) {
+        } else if (to > fromNew && to <= toNew && from < fromNew) {
             return new Range[]{new Range(from, fromNew)};
         } else if (fromNew > from && toNew < to) {
             return new Range[]{new Range(from, fromNew), new Range(toNew, to)};
         } else if (from > fromNew && to < toNew) {
             return new Range[0];
-        } else if (fromNew >= to || from >= toNew) { // totally unique set
-            return new Range[]{new Range(from, to)};
         }
         return new Range[0];
     }
