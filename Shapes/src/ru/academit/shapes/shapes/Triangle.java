@@ -1,7 +1,8 @@
-package ru.academit.shapes;
+package ru.academit.shapes.shapes;
 
-public class Triangle implements Shapes {
-    private boolean isGetAreaCalled;
+import ru.academit.shapes.Shape;
+
+public class Triangle implements Shape {
     private double x1;
     private double x2;
     private double x3;
@@ -15,30 +16,6 @@ public class Triangle implements Shapes {
         this.x3 = x3;
         this.y1 = y1;
         this.y2 = y2;
-        this.y3 = y3;
-    }
-
-    public void setX1(double x1) {
-        this.x1 = x1;
-    }
-
-    public void setX2(double x2) {
-        this.x2 = x2;
-    }
-
-    public void setX3(double x3) {
-        this.x3 = x3;
-    }
-
-    public void setY1(double y1) {
-        this.y1 = y1;
-    }
-
-    public void setY2(double y2) {
-        this.y2 = y2;
-    }
-
-    public void setY3(double y3) {
         this.y3 = y3;
     }
 
@@ -67,21 +44,13 @@ public class Triangle implements Shapes {
     }
 
     private static double max(double x1, double x2, double x3) {
-        double maxNumber = (x1 >= x2) ? x1 : x2;
-        if (maxNumber == x1) {
-            return (x1 >= x3) ? x1 : x3;
-        } else {
-            return (x2 >= x3) ? x2 : x3;
-        }
+        double maxNumber1 = Math.max(x1, x2);
+        return Math.max(maxNumber1, x3);
     }
 
     private static double min(double y1, double y2, double y3) {
-        double minNumber = (y1 <= y2) ? y1 : y3;
-        if (minNumber == y1) {
-            return (y1 <= y3) ? y1 : y3;
-        } else {
-            return (y2 <= y3) ? y2 : y3;
-        }
+        double maxNumber1 = Math.min(y1, y2);
+        return Math.min(maxNumber1, y3);
     }
 
     public double getWidth() {
@@ -93,36 +62,48 @@ public class Triangle implements Shapes {
     }
 
     public double getArea() {
-        isGetAreaCalled = true;
         return (getHeight() * getWidth()) / 2;
     }
 
+    private double getSideLength(double point1_1, double point1_2, double point2_1, double point2_2) {
+        return Math.sqrt(Math.pow(point1_2 - point1_1, 2) + Math.pow(point2_2 - point2_1, 2));
+    }
+
     private double getSideAB() {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        return getSideLength(x1, x2, y1, y2);
     }
 
     private double getSideAC() {
-        return Math.sqrt(Math.pow(x3 - x1, 2) + Math.pow(y3 - y1, 2));
+        return getSideLength(x1, x3, y1, y3);
     }
 
     private double getSideBC() {
-        return Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
+        return getSideLength(x2, x3, y2, y3);
     }
 
     public double getPerimeter() {
-        isGetAreaCalled = false;
         return getSideAB() + getSideAC() + getSideBC();
     }
 
     @Override
     public String toString() {
-        if (isGetAreaCalled) {
-            return "MaxArea = " + getArea() + ", " + getClass();
-        } else {
-            return "2nd max Perimeter = "  + getPerimeter() + ", " + getClass();
-        }
+        return (x1 + ", " + x2 + ", " + x3 + "; " + y1 + ", " + y2 + ", " + y3);
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        Triangle t = (Triangle) o;
+        return x1 == t.x1 && x2 == t.x2 && x3 == t.x3 && y1 == t.y1 && y2 == t.y2 && y3 == t.y3;
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 35;
         int hash = 1;

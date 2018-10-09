@@ -1,21 +1,14 @@
-package ru.academit.shapes;
+package ru.academit.shapes.shapes;
 
-public class Rectangle implements Shapes {
+import ru.academit.shapes.Shape;
+
+public class Rectangle implements Shape {
     private double width;
     private double height;
-    private boolean isGetAreaCalled;
 
     public Rectangle(double width, double height) {
         this.width = width;
         this.height = height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
     }
 
     public double getHeight() {
@@ -27,22 +20,28 @@ public class Rectangle implements Shapes {
     }
 
     public double getArea() {
-        isGetAreaCalled = true;
-        return getWidth() * getHeight();
+        return width * height;
     }
 
     public double getPerimeter() {
-        isGetAreaCalled = false;
-        return (getWidth() + getHeight()) * 2;
+        return (width + height) * 2;
     }
 
     @Override
     public String toString() {
-        if (isGetAreaCalled) {
-            return "MaxArea = " + getArea() + ", " + getClass();
-        } else {
-            return "2nd max Perimeter = " + getPerimeter() + ", " + getClass();
+        return width + ", " + height;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
         }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        Rectangle r = (Rectangle) o;
+        return width == r.width && height == r.height;
     }
 
     @Override
@@ -54,4 +53,3 @@ public class Rectangle implements Shapes {
         return hash;
     }
 }
-

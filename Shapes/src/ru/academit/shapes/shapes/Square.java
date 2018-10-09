@@ -1,14 +1,11 @@
-package ru.academit.shapes;
+package ru.academit.shapes.shapes;
 
-public class Square implements Shapes {
+import ru.academit.shapes.Shape;
+
+public class Square implements Shape {
     private double sideLength;
-    private boolean isGetAreaCalled;
 
     public Square(double length) {
-        this.sideLength = length;
-    }
-
-    public void setLength(double length) {
         this.sideLength = length;
     }
 
@@ -25,23 +22,29 @@ public class Square implements Shapes {
     }
 
     public double getArea() {
-        isGetAreaCalled = true;
-        return getLength() * getLength();
+        return sideLength * sideLength;
     }
 
     public double getPerimeter() {
         final int SIDES_NUMBER = 4;
-        isGetAreaCalled = false;
-        return SIDES_NUMBER * getLength();
+        return SIDES_NUMBER * sideLength;
     }
 
     @Override
     public String toString() {
-        if (isGetAreaCalled) {
-            return "MaxArea = " + getArea() + ", " + getClass();
-        } else {
-            return "2nd max Perimeter = " + getPerimeter() + ", " + getClass();
+        return "" + sideLength;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
         }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        Square s = (Square) o;
+        return sideLength == s.sideLength;
     }
 
     @Override

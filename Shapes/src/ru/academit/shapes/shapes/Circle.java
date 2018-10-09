@@ -1,14 +1,11 @@
-package ru.academit.shapes;
+package ru.academit.shapes.shapes;
 
-public class Circle implements Shapes {
+import ru.academit.shapes.Shape;
+
+public class Circle implements Shape {
     private double radius;
-    private boolean isGetAreaCalled;
 
     public Circle(double radius) {
-        this.radius = radius;
-    }
-
-    public void setRadius(double radius) {
         this.radius = radius;
     }
 
@@ -25,22 +22,28 @@ public class Circle implements Shapes {
     }
 
     public double getArea() {
-        isGetAreaCalled = true;
         return Math.PI * Math.pow(radius, 2);
     }
 
     public double getPerimeter() {
-        isGetAreaCalled = false;
         return 2 * Math.PI * radius;
     }
 
     @Override
     public String toString() {
-        if (isGetAreaCalled) {
-            return "MaxArea = " + getArea() + ", " + getClass();
-        } else {
-            return "2nd max Perimeter = "  + getPerimeter() + ", " + getClass();
+        return "" + radius;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
         }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        Circle s = (Circle) o;
+        return radius == s.radius;
     }
 
     @Override
