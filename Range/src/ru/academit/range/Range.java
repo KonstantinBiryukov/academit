@@ -94,15 +94,17 @@ public class Range {
 
         if (fromNew >= to || from >= toNew) { // totally unique set
             return new Range[]{new Range(from, to)};
-        } else if (to > fromNew && to >= toNew && from > fromNew) {
-            return new Range[]{new Range(toNew, to)};
-        } else if (to > fromNew && to <= toNew && from < fromNew) {
-            return new Range[]{new Range(from, fromNew)};
-        } else if (fromNew > from && toNew < to) {
-            return new Range[]{new Range(from, fromNew), new Range(toNew, to)};
-        } else if (from > fromNew && to < toNew) {
+        } else {
+            if (fromNew > from && toNew < to) {
+                return new Range[]{new Range(from, fromNew), new Range(toNew, to)};
+            } else if (from >= fromNew && to <= toNew) {
+                return new Range[0];
+            } else if (to >= toNew && from >= fromNew) {
+                return new Range[]{new Range(toNew, to)};
+            } else if (to <= toNew && from <= fromNew) {
+                return new Range[]{new Range(from, fromNew)};
+            }
             return new Range[0];
         }
-        return new Range[0];
     }
 }

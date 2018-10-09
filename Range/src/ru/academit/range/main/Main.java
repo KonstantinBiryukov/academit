@@ -5,8 +5,8 @@ import ru.academit.range.Range;
 public class Main {
     public static void main(String[] args) {
 
-        Range range = new Range(5, 10);
-        Range rangeNew = new Range(4, 11);
+        Range range = new Range(6, 10);
+        Range rangeNew = new Range(6, 8);
         Range intersectionRange = range.getIntersection(rangeNew);
         if (intersectionRange == null) {
             System.out.println("null");
@@ -16,19 +16,17 @@ public class Main {
 
         Range unionRange[] = range.getUnion(rangeNew);
         System.out.print("Union = ");
-        for (int i = 0; i < unionRange.length; i++) {
-            System.out.print("[" + unionRange[i].getFrom() + ", " + unionRange[i].getTo() + "]");
+        for (Range e : unionRange) {
+            System.out.print("[" + e.getFrom() + ", " + e.getTo() + "]");
         }
         System.out.println(";");
 
         Range differenceRange[] = range.getDifference(rangeNew);
-        if (differenceRange == null) {
-            System.out.println("null");
-        } else {
-            System.out.print("Difference = ");
-            for (int i = 0; i < differenceRange.length; i++) {
-                System.out.print("[" + differenceRange[i].getFrom() + ", " + differenceRange[i].getTo() + "]");
-            }
+        System.out.print("Difference = ");
+        for (Range e : differenceRange) {
+            System.out.print("[" + e.getFrom() + ", " + e.getTo() + "]");
+
         }
+
     }
 }
