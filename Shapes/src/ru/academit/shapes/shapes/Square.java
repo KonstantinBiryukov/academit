@@ -55,4 +55,3 @@ public class Square implements Shape {
         return hash;
     }
 }
-

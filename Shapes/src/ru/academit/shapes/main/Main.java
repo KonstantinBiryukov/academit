@@ -7,7 +7,6 @@ import ru.academit.shapes.shapes.Circle;
 import ru.academit.shapes.shapes.Rectangle;
 import ru.academit.shapes.shapes.Square;
 import ru.academit.shapes.shapes.Triangle;
-
 import java.util.Arrays;
 
 public class Main {

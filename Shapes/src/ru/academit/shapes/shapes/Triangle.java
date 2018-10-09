@@ -90,7 +90,6 @@ public class Triangle implements Shape {
         return (x1 + ", " + x2 + ", " + x3 + "; " + y1 + ", " + y2 + ", " + y3);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == this) {
