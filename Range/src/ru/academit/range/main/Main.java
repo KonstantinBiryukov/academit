@@ -25,8 +25,6 @@ public class Main {
         System.out.print("Difference = ");
         for (Range e : differenceRange) {
             System.out.print("[" + e.getFrom() + ", " + e.getTo() + "]");
-
         }
-
     }
 }
