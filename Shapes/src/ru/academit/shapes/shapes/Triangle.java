@@ -61,12 +61,8 @@ public class Triangle implements Shape {
         return (Triangle.max(y1, y2, y3) - Triangle.min(y1, y2, y3));
     }
 
-    public double getArea() {
-        return (getHeight() * getWidth()) / 2;
-    }
-
-    private double getSideLength(double point1_1, double point1_2, double point2_1, double point2_2) {
-        return Math.sqrt(Math.pow(point1_2 - point1_1, 2) + Math.pow(point2_2 - point2_1, 2));
+    private static double getSideLength(double pointA1, double pointA2, double pointB1, double pointB2) {
+        return Math.sqrt(Math.pow(pointA2 - pointA1, 2) + Math.pow(pointB2 - pointB1, 2));
     }
 
     private double getSideAB() {
@@ -81,13 +77,22 @@ public class Triangle implements Shape {
         return getSideLength(x2, x3, y2, y3);
     }
 
+    private double getHalfPerimeter() {
+        return (getSideAB() + getSideAC() + getSideBC()) / 2;
+    }
+
     public double getPerimeter() {
         return getSideAB() + getSideAC() + getSideBC();
     }
 
+    public double getArea() {
+        return Math.sqrt(getHalfPerimeter() * (getHalfPerimeter() - getSideAB()) *
+                (getHalfPerimeter() - getSideAC()) * (getHalfPerimeter() - getSideBC()));
+    }
+
     @Override
     public String toString() {
-        return (x1 + ", " + x2 + ", " + x3 + "; " + y1 + ", " + y2 + ", " + y3);
+        return (x1 + ", " + x2 + ", " + x3 + "; " + y1 + ", " + y2 + ", " + y3 + ", " + getClass().getName());
     }
 
     @Override
