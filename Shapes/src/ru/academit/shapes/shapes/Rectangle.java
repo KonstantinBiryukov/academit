@@ -29,7 +29,7 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return width + ", " + height + ", " + getClass().getName();
+        return "Rectangle; width = " + width + ", height = " + height;
     }
 
     @Override

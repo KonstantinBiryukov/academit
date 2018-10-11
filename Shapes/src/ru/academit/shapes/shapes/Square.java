@@ -6,7 +6,6 @@ public class Square implements Shape {
     private double sideLength;
     private static final int SIDES_NUMBER = 4;
 
-
     public Square(double length) {
         this.sideLength = length;
     }
@@ -33,7 +32,7 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return sideLength + ", " + getClass().getName();
+        return "Square; length of the side = " + sideLength;
     }
 
     @Override

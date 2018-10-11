@@ -9,6 +9,7 @@ public class Triangle implements Shape {
     private double y1;
     private double y2;
     private double y3;
+    private double halfPerimeter;
 
     public Triangle(double x1, double x2, double x3, double y1, double y2, double y3) {
         this.x1 = x1;
@@ -61,8 +62,8 @@ public class Triangle implements Shape {
         return (Triangle.max(y1, y2, y3) - Triangle.min(y1, y2, y3));
     }
 
-    private static double getSideLength(double pointA1, double pointA2, double pointB1, double pointB2) {
-        return Math.sqrt(Math.pow(pointA2 - pointA1, 2) + Math.pow(pointB2 - pointB1, 2));
+    private static double getSideLength(double x1, double x2, double y1, double y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     private double getSideAB() {
@@ -77,22 +78,23 @@ public class Triangle implements Shape {
         return getSideLength(x2, x3, y2, y3);
     }
 
-    private double getHalfPerimeter() {
-        return (getSideAB() + getSideAC() + getSideBC()) / 2;
-    }
-
     public double getPerimeter() {
         return getSideAB() + getSideAC() + getSideBC();
     }
 
+    private void getHalfPerimeter() {
+        halfPerimeter = getPerimeter() / 2;
+    }
+
     public double getArea() {
-        return Math.sqrt(getHalfPerimeter() * (getHalfPerimeter() - getSideAB()) *
-                (getHalfPerimeter() - getSideAC()) * (getHalfPerimeter() - getSideBC()));
+        getHalfPerimeter();
+        return Math.sqrt(halfPerimeter * (halfPerimeter - getSideAB()) *
+                (halfPerimeter - getSideAC()) * (halfPerimeter - getSideBC()));
     }
 
     @Override
     public String toString() {
-        return (x1 + ", " + x2 + ", " + x3 + "; " + y1 + ", " + y2 + ", " + y3 + ", " + getClass().getName());
+        return "Triangle; coordinates of points = " + x1 + ", " + x2 + ", " + x3 + "; " + y1 + ", " + y2 + ", " + y3;
     }
 
     @Override

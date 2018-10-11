@@ -35,6 +35,7 @@ public class Main {
 
         System.out.println(r1.equals(r2));
         System.out.println(t1.equals(t2));
+        System.out.println(s1);
 
         System.out.println("Max area = " + getMaxArea(arrayShapes));
         System.out.println("2nd max perimeter = " + getMax2Perimeter(arrayShapes));
