@@ -9,7 +9,6 @@ public class Triangle implements Shape {
     private double y1;
     private double y2;
     private double y3;
-    private double halfPerimeter;
 
     public Triangle(double x1, double x2, double x3, double y1, double y2, double y3) {
         this.x1 = x1;
@@ -82,12 +81,8 @@ public class Triangle implements Shape {
         return getSideAB() + getSideAC() + getSideBC();
     }
 
-    private void getHalfPerimeter() {
-        halfPerimeter = getPerimeter() / 2;
-    }
-
     public double getArea() {
-        getHalfPerimeter();
+        double halfPerimeter = getPerimeter() / 2;
         return Math.sqrt(halfPerimeter * (halfPerimeter - getSideAB()) *
                 (halfPerimeter - getSideAC()) * (halfPerimeter - getSideBC()));
     }
