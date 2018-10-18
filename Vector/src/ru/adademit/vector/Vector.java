@@ -128,9 +128,9 @@ public class Vector {
     public void setComponent(int index, double component) {
         if (index >= vectorComponents.length || index < 0) {
             throw new IllegalArgumentException("index should be less than the vector's length and greater than 0");
-        } else {
-            this.vectorComponents[index] = component;
         }
+        this.vectorComponents[index] = component;
+
     }
 
     @Override
