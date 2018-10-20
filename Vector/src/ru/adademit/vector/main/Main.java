@@ -8,14 +8,14 @@ public class Main {
         // TEST_program
         int n = 10;
         double[] array = new double[]{2, 4, 6, 10, 2, 10};
-        double[] array2 = new double[]{1, -1, -4, 9};
-        double[] array3 = new double[]{0, -3, -5};
+        double[] array2 = new double[]{1, -1, -4, 9, 1, 1, 12};
+        double[] array3 = new double[]{0, -3, -5, 12, 3};
         double[] array4 = new double[]{2, 7, 9, 12, 3};
         double[] array5 = new double[]{1, 2, 3};
         double[] array6 = new double[]{7, -5, 0};
-        double[] array7 = new double[]{7, -5, 0};
-        double[] array8 = new double[]{7, -54, 2};
-        double[] array9 = new double[]{7, -23, 2, 3};
+        double[] array7 = new double[]{7, -5, 0, 1};
+        double[] array8 = new double[]{7, -54, 2, -1};
+        double[] array9 = new double[]{7, -23, 2};
         double[] array10 = new double[]{3, -21, 2};
         double[] array11 = new double[]{7, -5, 2, 17};
 
