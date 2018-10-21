@@ -13,9 +13,7 @@ public class Vector {
     }
 
     public Vector(Vector vectorContainer) {
-        int n = vectorContainer.components.length;
-        double[] arrayTemp = vectorContainer.components;
-        this.components = Arrays.copyOf(arrayTemp, n);
+        this.components = Arrays.copyOf(vectorContainer.components, vectorContainer.components.length);
     }
 
     public Vector(double[] vector) {
@@ -29,14 +27,7 @@ public class Vector {
         if (n <= 0) {
             throw new IllegalArgumentException("n must be greater than 0");
         }
-
-        double[] vectorContainer = new double[n];
-        for (int i = 0; i < n; i++) {
-            if (i < vector.length) {
-                vectorContainer[i] = vector[i];
-            }
-        }
-        this.components = vectorContainer;
+        this.components = Arrays.copyOf(vector, n);
     }
 
     public void setComponent(int index, double component) {
@@ -71,8 +62,7 @@ public class Vector {
         int size2 = additionalVector.getSize();
 
         if (size2 > size1) {
-            Vector newThis = new Vector(size2, this.components);
-            this.components = newThis.components;
+            this.components = Arrays.copyOf(this.components, size2);
         }
 
         for (int i = 0; i < size2; i++) {
@@ -86,8 +76,7 @@ public class Vector {
         int size2 = additionalVector.getSize();
 
         if (size2 > size1) {
-            Vector newThis = new Vector(size2, this.components);
-            this.components = newThis.components;
+            this.components = Arrays.copyOf(this.components, size2);
         }
 
         for (int i = 0; i < size2; i++) {
@@ -144,14 +133,12 @@ public class Vector {
 
     public static Vector addVectors(Vector v1, Vector v2) {
         Vector copyV1 = new Vector(v1);
-        Vector copyV2 = new Vector(v2);
-        return copyV1.addVector(copyV2);
+        return copyV1.addVector(v2);
     }
 
     public static Vector subtractVectors(Vector v1, Vector v2) {
         Vector copyV1 = new Vector(v1);
-        Vector copyV2 = new Vector(v2);
-        return copyV1.subtractVector(copyV2);
+        return copyV1.subtractVector(v2);
     }
 
     public static double getScalarMultiplication(Vector v1, Vector v2) {
