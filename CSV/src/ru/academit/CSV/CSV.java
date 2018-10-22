@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class CSV {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         try (PrintWriter writer = new PrintWriter("/Users/konstantinbiriukov/Desktop/htmlFile.html");
              Scanner scanner = new Scanner(new FileInputStream
@@ -57,6 +57,9 @@ public class CSV {
                 }
             }
             writer.println("</table>");
+        } catch (IOException e) {
+            System.out.println("Ошибка записи в файл: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
