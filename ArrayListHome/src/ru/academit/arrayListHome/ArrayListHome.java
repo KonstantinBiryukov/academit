@@ -17,21 +17,28 @@ public class ArrayListHome {
     public static void main(String[] args) {
         // 1
         try (Scanner scanner = new Scanner(new FileInputStream(args[0]))) {
-            ArrayList<String> list = new ArrayList<>();
-            while (scanner.hasNextLine()) {
-                list.add(scanner.nextLine());
+            if (args[0] == null) {
+                throw new NullPointerException("Method's arguments shouldn't be equal to null, since it's a FileInputStream...");
+            } else if (args.length > 1) {
+                throw new ArrayIndexOutOfBoundsException("We should have the only one FileInputStream...");
+            } else {
+                ArrayList<String> list = new ArrayList<>();
+                while (scanner.hasNextLine()) {
+                    list.add(scanner.nextLine());
+                }
+                System.out.println(list);
             }
-            System.out.println(list);
         } catch (IOException e) {
             System.out.println("Input-output error" + e.getMessage());
         }
 
         // 2
-        ArrayList<Integer> integers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+        ArrayList<Integer> integers = new ArrayList<>(Arrays.asList(-2, -1, 0, 1, 2, 32, 34, 36, 33, 4, 5, 6, 7, 8, 9, 10));
         System.out.println(integers);
         for (int i = 0; i < integers.size(); i++) {
             if (integers.get(i) % 2 == 0) {
                 integers.remove(i);
+                i--;
             }
         }
         System.out.println(integers);
@@ -39,11 +46,11 @@ public class ArrayListHome {
         // 3
         ArrayList<Integer> intList = new ArrayList<>(Arrays.asList(1, 5, 9, 2, 1, 3, 5, 1, 4, 7, 3));
         ArrayList<Integer> newIntList = new ArrayList<>();
-        for (int i = 0; i < intList.size(); i++) {
-            if (newIntList.contains(intList.get(i))) {
+        for (Integer anIntList : intList) {
+            if (newIntList.contains(anIntList)) {
                 continue;
             }
-            newIntList.add(intList.get(i));
+            newIntList.add(anIntList);
         }
         System.out.println(intList);
         System.out.println(newIntList);
