@@ -17,10 +17,9 @@ public class ArrayListHome {
     public static void main(String[] args) {
         // 1
         try (Scanner scanner = new Scanner(new FileInputStream(args[0]))) {
-            if (args[0] == null) {
-                throw new NullPointerException("Method's arguments shouldn't be equal to null, since it's a FileInputStream...");
-            } else if (args.length > 1) {
-                throw new ArrayIndexOutOfBoundsException("We should have the only one FileInputStream...");
+            if (args.length != 1) {
+                System.out.println("We should have the only one FileInputStream in the arguments...");
+                return;
             } else {
                 ArrayList<String> list = new ArrayList<>();
                 while (scanner.hasNextLine()) {
@@ -46,11 +45,11 @@ public class ArrayListHome {
         // 3
         ArrayList<Integer> intList = new ArrayList<>(Arrays.asList(1, 5, 9, 2, 1, 3, 5, 1, 4, 7, 3));
         ArrayList<Integer> newIntList = new ArrayList<>();
-        for (Integer anIntList : intList) {
-            if (newIntList.contains(anIntList)) {
+        for (Integer intListElement : intList) {
+            if (newIntList.contains(intListElement)) {
                 continue;
             }
-            newIntList.add(anIntList);
+            newIntList.add(intListElement);
         }
         System.out.println(intList);
         System.out.println(newIntList);
