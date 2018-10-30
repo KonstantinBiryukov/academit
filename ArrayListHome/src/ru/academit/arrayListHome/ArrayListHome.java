@@ -16,19 +16,19 @@ import java.util.Scanner;
 public class ArrayListHome {
     public static void main(String[] args) {
         // 1
-        try (Scanner scanner = new Scanner(new FileInputStream(args[0]))) {
-            if (args.length != 1) {
-                System.out.println("We should have the only one FileInputStream in the arguments...");
-                return;
-            } else {
+        if (args.length != 1) {
+            System.out.println("We should have the only one FileInputStream in the arguments...");
+            return;
+        } else {
+            try (Scanner scanner = new Scanner(new FileInputStream(args[0]))) {
                 ArrayList<String> list = new ArrayList<>();
                 while (scanner.hasNextLine()) {
                     list.add(scanner.nextLine());
                 }
                 System.out.println(list);
+            } catch (IOException e) {
+                System.out.println("Input-output error" + e.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println("Input-output error" + e.getMessage());
         }
 
         // 2
