@@ -14,9 +14,20 @@ public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
 
-    public SinglyLinkedList(ListItem<T> head) {
-        this.head = head;
-        count++;
+    private ListItem<T> iterator(int index) {
+        if (index > count) {
+            throw new IllegalStateException("Index greater than quantity of objects in the list...");
+        } else if (index < 0) {
+            throw new IllegalStateException("Index has to be a positive number...");
+        }
+        int counter = 0;
+        for (ListItem<T> p = head; p != null; p = p.getNext()) {
+            counter++;
+            if (counter == index) {
+                return p;
+            }
+        }
+        return null;
     }
 
     public void setHead(ListItem<T> head) {
@@ -24,14 +35,13 @@ public class SinglyLinkedList<T> {
     }
 
     public int getCount() {
-        if (count > 0) {
-            return count;
-        } else {
-            return 0;
-        }
+        return count;
     }
 
     public T getFirst() {
+        if (head == null) {
+            throw new IllegalStateException("The list is empty");
+        }
         return head.getData();
     }
 
@@ -42,8 +52,7 @@ public class SinglyLinkedList<T> {
 
     public T removeFirst() {
         if (count == 1) {
-            System.out.println("The list contains only head that can't be removed");
-            return null;
+            throw new IllegalStateException("The list contains only head that can't be removed");
         }
         T prev = head.getData();
         head = head.getNext();
@@ -52,133 +61,88 @@ public class SinglyLinkedList<T> {
     }
 
     public T getDataByIndex(int index) {
-        if (index > count) {
-            System.out.println("Index greater than quantity of objects in the list...");
-            return null;
-        } else if (index < 0) {
-            System.out.println("Index has to be a positive number...");
-            return null;
-        } else {
-            int counter = 0;
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                counter++;
-                if (counter == index) {
-                    return p.getData();
-                }
-            }
+        ListItem<T> p = iterator(index);
+        if (p == null) {
             return null;
         }
+        return p.getData();
     }
 
     public T setDataByIndex(T newData, int index) {
-        if (index > count) {
-            System.out.println("Index greater than quantity of objects in the list...");
-            return null;
-        } else if (index < 0) {
-            System.out.println("Index has to be a positive number...");
-            return null;
-        } else {
-            int counter = 0;
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                counter++;
-                if (counter == index) {
-                    T prev = p.getData();
-                    p.setData(newData);
-                    return prev;
-                }
-            }
+        ListItem<T> p = iterator(index);
+        if (p == null) {
             return null;
         }
+        T prev = p.getData();
+        p.setData(newData);
+        return prev;
     }
 
     public void addByIndex(T data, int index) {
-        if (index > count) {
-            System.out.println("Index greater than quantity of objects in the list...");
-        } else if (index < 0) {
-            System.out.println("Index has to be a positive number...");
-        } else {
-            int counter = 0;
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                counter++;
-                if (counter == index) {
-                    ListItem<T> q = new ListItem<>(data);
-                    q.setNext(p.getNext());
-                    p.setNext(q);
-                    count++;
-                }
-            }
+        ListItem<T> p = iterator(index);
+        if (p == null) {
+            throw new NullPointerException("there's no object here");
         }
+        ListItem<T> q = new ListItem<>(data);
+        q.setNext(p.getNext());
+        p.setNext(q);
+        count++;
     }
 
     public T removeByIndex(int index) {
-        if (index > count) {
-            System.out.println("Index greater than quantity of objects in the list...");
-            return null;
-        } else if (index < 0) {
-            System.out.println("Index has to be a positive number...");
-            return null;
-        } else if (count == 1) {
-            System.out.println("The list contains only head that can't be removed");
-            return null;
-        } else {
-            int counter = 0;
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                counter++;
-                if (counter == index) {
-                    T prev = p.getData();
-                    p.setNext(p.getNext().getNext());
-                    count--;
-                    return prev;
-                }
-            }
-            return null;
+        if (count == 1) {
+            throw new IllegalStateException("The list contains only head that can't be removed");
         }
+        ListItem<T> p = iterator(index);
+        if (p == null) {
+            throw new NullPointerException("there's no object here");
+        }
+        T prev = p.getData();
+        p.setNext(p.getNext().getNext());
+        count--;
+        return prev;
     }
 
     public boolean removeByData(T data) {
         if (head == null) {
             return false;
-        } else {
-            for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-                if (p.getData().equals(data)) {
-                    if (prev == null) {
-                        head = p.getNext();
-                        return true;
-                    }
-                    prev.setNext(p.getNext());
-                    count--;
+        }
+        for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
+            if (p.getData() == data) {
+                if (prev == null) {
+                    head = p.getNext();
                     return true;
                 }
+                prev.setNext(p.getNext());
+                count--;
+                return true;
             }
-            return false;
         }
+        return false;
     }
 
+
     public void reverseList() {
-        if (count <= 1 || head == null || head.getNext() == null) {
-            System.out.println("there're not enough list_items to make a reverse...");
-        } else {
-            ListItem<T> prev = null;
-            for (ListItem<T> p = head, pNext; p != null; prev = p, p = pNext) {
-                pNext = p.getNext();
-                p.setNext(prev);
-            }
-            head = prev;
+        ListItem<T> prev = null;
+        for (ListItem<T> p = head, pNext; p != null; prev = p, p = pNext) {
+            pNext = p.getNext();
+            p.setNext(prev);
         }
+        head = prev;
     }
 
     public SinglyLinkedList<T> copyList() {
-        if (head == null) {
-            return null;
-        } else {
-            ListItem<T> newHead = new ListItem<>(head.getData());
-            SinglyLinkedList<T> newList = new SinglyLinkedList<>(newHead);
-            for (ListItem<T> p = head.getNext(), c = newHead; p != null; p = p.getNext(), c = c.getNext()) {
-                ListItem<T> q = new ListItem<>(p.getData());
-                c.setNext(q);
-            }
-            newList.count = this.getCount();
-            return newList;
+        if (count == 0) {
+            return new SinglyLinkedList<>();
         }
+        ListItem<T> newHead = new ListItem<>(head.getData());
+        SinglyLinkedList<T> newList = new SinglyLinkedList<>();
+        newList.setHead(newHead);
+        for (ListItem<T> p = head.getNext(), c = newHead; p != null; p = p.getNext(), c = c.getNext()) {
+            ListItem<T> q = new ListItem<>(p.getData());
+            c.setNext(q);
+        }
+        newList.count = this.getCount();
+        return newList;
     }
 }
