@@ -3,7 +3,6 @@ package ru.academit.arrayList.main;
 import ru.academit.arrayList.ArrayList;
 
 import java.util.Arrays;
-
 //@Test
 
 // 1 size
@@ -39,6 +38,8 @@ public class Main {
         stringList.add("aaaaaa");
         stringList.add("???");
         stringList.add("cccccc");
+        stringList.add(null);
+        stringList.add("NNZ");
 
         ArrayList<Integer> intList = new ArrayList<>(1);
         intList.add(10);
@@ -48,6 +49,8 @@ public class Main {
         intList.add(3);
         intList.add(0);
         intList.add(-5);
+        intList.add(null);
+        intList.add(444);
 
         String[] sss = stringList.toArray(new String[stringList.size()]);
         Integer[] aaa = intList.toArray(new Integer[intList.size()]);
@@ -68,14 +71,15 @@ public class Main {
         System.out.println("CONTAINS");
         System.out.println(Arrays.toString(sss));
         System.out.println(Arrays.toString(aaa));
-        System.out.println(stringList.contains("aaaaaa"));
-        System.out.println(intList.contains(223));
+        System.out.println(stringList.contains("NNZ"));
+        System.out.println(intList.contains(444));
 
         System.out.println();
         System.out.println("CONTAINS_ALL");
         ArrayList<String> stringList2 = new ArrayList<>(5);
         stringList2.add("FFFF");
         stringList2.add("aaaaaa");
+        stringList2.add(null);
         System.out.println(stringList.containsAll(stringList2));
 
         System.out.println();
@@ -89,8 +93,8 @@ public class Main {
 
         System.out.println();
         System.out.println("REMOVE_BY_DATA");
-        System.out.println(stringList.remove("something"));
-        System.out.println(intList.remove((Integer) 22));
+        System.out.println(stringList.remove("S"));
+        System.out.println(intList.remove((Integer) 223));
         String[] sss3 = stringList.toArray(new String[stringList.size()]);
         Integer[] aaa3 = intList.toArray(new Integer[intList.size()]);
         System.out.println(Arrays.toString(sss3));
@@ -98,7 +102,8 @@ public class Main {
 
         System.out.println();
         System.out.println("REMOVE_BY_INDEX");
-        System.out.println(stringList.remove(3));
+        System.out.println(stringList.size());
+        System.out.println(stringList.remove(4));
         System.out.println(intList.remove(7));
         String[] sss4 = stringList.toArray(new String[stringList.size()]);
         Integer[] aaa4 = intList.toArray(new Integer[intList.size()]);

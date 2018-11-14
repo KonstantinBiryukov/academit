@@ -62,9 +62,7 @@ public class ArrayList<T> implements List<T> {
             }
         } else {
             for (T arrayItem : items) {
-                if (arrayItem == null) {
-                    return false;
-                } else if (arrayItem.equals(o)) {
+                if (arrayItem != null && arrayItem.equals(o)) {
                     return true;
                 }
             }
@@ -125,21 +123,21 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean remove(Object o) {
-        int count = -1;
+        int index = 0;
         if (o == null) {
             for (T arrayItem : items) {
                 if (arrayItem == null) {
-                    remove(count);
+                    remove(index);
                     return true;
                 }
             }
         } else {
             for (T arrayItem : items) {
-                count++;
-                if (arrayItem.equals(o)) {
-                    remove(count);
+                if (arrayItem != null && arrayItem.equals(o)) {
+                    remove(index);
                     return true;
                 }
+                index++;
             }
         }
         return false;
@@ -151,10 +149,14 @@ public class ArrayList<T> implements List<T> {
             int count = 0;
             for (Object cElement : c) {
                 for (T arrayItem : items) {
-                    if (arrayItem == null) {
-                        break;
-                    } else if (arrayItem.equals(cElement)) {
+                    if (cElement == null) {
+                        if (arrayItem == null) {
+                            count++;
+                            break;
+                        }
+                    } else if (arrayItem != null && arrayItem.equals(cElement)) {
                         count++;
+                        break;
                     }
                 }
             }
@@ -284,14 +286,14 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        T prev = null;
+        T prev;
         if (index > length - 1) {
             throw new ArrayIndexOutOfBoundsException("Your index is greater than list's length");
         } else if (index < length - 1) {
             prev = items[index];
             System.arraycopy(items, index + 1, items, index, length - index - 1);
-        } else {    // index == length - 1
-            items = Arrays.copyOf(items, length);
+        } else {
+            prev = items[index];
         }
         length--;
         modCount++;
@@ -308,7 +310,9 @@ public class ArrayList<T> implements List<T> {
             }
         } else {
             for (int i = 0; i < length; i++) {
-                if (items[i].equals(o)) {
+                if (items[i] == null) {
+                    return -1;
+                } else if (items[i].equals(o)) {
                     return i;
                 }
             }
@@ -326,7 +330,9 @@ public class ArrayList<T> implements List<T> {
             }
         } else {
             for (int i = length - 1; i > 0; i--) {
-                if (o.equals(items[i])) {
+                if (items[i] == null) {
+                    return -1;
+                } else if (o.equals(items[i])) {
                     return i;
                 }
             }
