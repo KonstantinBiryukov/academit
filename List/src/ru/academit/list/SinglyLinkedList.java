@@ -14,24 +14,20 @@ public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
 
-    private ListItem<T> iterator(int index) {
-        if (index > count) {
-            throw new IllegalStateException("Index greater than quantity of objects in the list...");
+    private ListItem<T> getSinglyLinkedListIterator(int index) {
+        if (index >= count) {
+            throw new IndexOutOfBoundsException("Index greater than quantity of objects in the list...");
         } else if (index < 0) {
-            throw new IllegalStateException("Index has to be a positive number...");
+            throw new IndexOutOfBoundsException("Index has to be a positive number...");
         }
         int counter = 0;
         for (ListItem<T> p = head; p != null; p = p.getNext()) {
-            counter++;
             if (counter == index) {
                 return p;
             }
+            counter++;
         }
-        return null;
-    }
-
-    public void setHead(ListItem<T> head) {
-        this.head = head;
+        return head;
     }
 
     public int getCount() {
@@ -40,7 +36,7 @@ public class SinglyLinkedList<T> {
 
     public T getFirst() {
         if (head == null) {
-            throw new IllegalStateException("The list is empty");
+            throw new IndexOutOfBoundsException("The list is empty");
         }
         return head.getData();
     }
@@ -51,9 +47,6 @@ public class SinglyLinkedList<T> {
     }
 
     public T removeFirst() {
-        if (count == 1) {
-            throw new IllegalStateException("The list contains only head that can't be removed");
-        }
         T prev = head.getData();
         head = head.getNext();
         count--;
@@ -61,28 +54,19 @@ public class SinglyLinkedList<T> {
     }
 
     public T getDataByIndex(int index) {
-        ListItem<T> p = iterator(index);
-        if (p == null) {
-            return null;
-        }
+        ListItem<T> p = getSinglyLinkedListIterator(index);
         return p.getData();
     }
 
     public T setDataByIndex(T newData, int index) {
-        ListItem<T> p = iterator(index);
-        if (p == null) {
-            return null;
-        }
+        ListItem<T> p = getSinglyLinkedListIterator(index);
         T prev = p.getData();
         p.setData(newData);
         return prev;
     }
 
     public void addByIndex(T data, int index) {
-        ListItem<T> p = iterator(index);
-        if (p == null) {
-            throw new NullPointerException("there's no object here");
-        }
+        ListItem<T> p = getSinglyLinkedListIterator(index);
         ListItem<T> q = new ListItem<>(data);
         q.setNext(p.getNext());
         p.setNext(q);
@@ -90,13 +74,7 @@ public class SinglyLinkedList<T> {
     }
 
     public T removeByIndex(int index) {
-        if (count == 1) {
-            throw new IllegalStateException("The list contains only head that can't be removed");
-        }
-        ListItem<T> p = iterator(index);
-        if (p == null) {
-            throw new NullPointerException("there's no object here");
-        }
+        ListItem<T> p = getSinglyLinkedListIterator(index);
         T prev = p.getData();
         p.setNext(p.getNext().getNext());
         count--;
@@ -107,8 +85,20 @@ public class SinglyLinkedList<T> {
         if (head == null) {
             return false;
         }
+        if (data == null) {
+            for (ListItem<T> p = head; p != null; p = p.getNext()) {
+                if (p.getData() == null) {
+                    return true;
+                }
+            }
+        }
         for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-            if (p.getData() == data) {
+            if (p.getData() == null) {
+                if (data == null) {
+                    return true;
+                }
+                break;
+            } else if (p.getData().equals(data)) {
                 if (prev == null) {
                     head = p.getNext();
                     return true;
@@ -120,7 +110,6 @@ public class SinglyLinkedList<T> {
         }
         return false;
     }
-
 
     public void reverseList() {
         ListItem<T> prev = null;
@@ -137,7 +126,7 @@ public class SinglyLinkedList<T> {
         }
         ListItem<T> newHead = new ListItem<>(head.getData());
         SinglyLinkedList<T> newList = new SinglyLinkedList<>();
-        newList.setHead(newHead);
+        newList.head = newHead;
         for (ListItem<T> p = head.getNext(), c = newHead; p != null; p = p.getNext(), c = c.getNext()) {
             ListItem<T> q = new ListItem<>(p.getData());
             c.setNext(q);
