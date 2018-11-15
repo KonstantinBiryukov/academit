@@ -26,7 +26,6 @@
 // 21 increaseCapacity
 // 22 ensureCapacity
 // 23 trimToSize
-
 package ru.academit.arrayList;
 
 import java.util.*;
@@ -243,7 +242,7 @@ public class ArrayList<T> implements List<T> {
     @Override
     public T get(int index) {
         if (index >= length) {
-            throw new ArrayIndexOutOfBoundsException("Your index is greater than list's length" + System.lineSeparator() +
+            throw new IndexOutOfBoundsException("Your index is greater than list's length" + System.lineSeparator() +
                     "Specify another index or paste more elements into the list to increase capacity...");
         }
         return items[index];
