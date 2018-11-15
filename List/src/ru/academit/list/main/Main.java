@@ -1,16 +1,13 @@
 package ru.academit.list.main;
 
-import ru.academit.list.ListItem;
 import ru.academit.list.SinglyLinkedList;
 
 //@test
 public class Main {
     public static void main(String[] args) {
-        ListItem<Integer> node1 = new ListItem<>(5);
 
         System.out.println("GET_FIRST");
         SinglyLinkedList<Integer> list1 = new SinglyLinkedList<>();
-       // list1.setHead(node1);
         list1.addFirst(10);
         System.out.println(list1.getFirst());
 
@@ -36,6 +33,7 @@ public class Main {
         System.out.println(list1.getCount());
         System.out.println(list1.removeFirst());
         System.out.println(list1.getFirst());
+        System.out.println();
 
         System.out.println();
         System.out.println("GET/SET_DATA_BY_INDEX");
@@ -77,7 +75,7 @@ public class Main {
         System.out.println(list1.getDataByIndex(4));
         System.out.println(list1.getDataByIndex(5));
         System.out.println(list1.getDataByIndex(6));
-        System.out.println(list1.getDataByIndex(7));
+     //  System.out.println(list1.getDataByIndex(7));
         System.out.println("count: " + list1.getCount());
 
         System.out.println();
@@ -90,7 +88,7 @@ public class Main {
         System.out.println(t1.getDataByIndex(6));
         System.out.println(t1.getDataByIndex(7));
         System.out.println(t1.getDataByIndex(8));
-        System.out.println(t1.getDataByIndex(9));
+     //   System.out.println(t1.getDataByIndex(9));
         System.out.println("count: " + t1.getCount());
 
         System.out.println();

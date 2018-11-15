@@ -10,6 +10,8 @@
 //•	копирование списка
 package ru.academit.list;
 
+import java.util.Objects;
+
 public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
@@ -85,20 +87,8 @@ public class SinglyLinkedList<T> {
         if (head == null) {
             return false;
         }
-        if (data == null) {
-            for (ListItem<T> p = head; p != null; p = p.getNext()) {
-                if (p.getData() == null) {
-                    return true;
-                }
-            }
-        }
         for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.getNext()) {
-            if (p.getData() == null) {
-                if (data == null) {
-                    return true;
-                }
-                break;
-            } else if (p.getData().equals(data)) {
+            if (Objects.equals(p.getData(), data)) {
                 if (prev == null) {
                     head = p.getNext();
                     return true;
