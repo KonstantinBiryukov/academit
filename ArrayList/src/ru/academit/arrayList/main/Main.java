@@ -2,6 +2,7 @@ package ru.academit.arrayList.main;
 
 import ru.academit.arrayList.ArrayList;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 //@Test
 
@@ -71,8 +72,8 @@ public class Main {
         System.out.println("CONTAINS");
         System.out.println(Arrays.toString(sss));
         System.out.println(Arrays.toString(aaa));
-        System.out.println(stringList.contains("NNZ"));
-        System.out.println(intList.contains(444));
+        System.out.println(stringList.contains(null));
+        System.out.println(intList.contains(4444));
 
         System.out.println();
         System.out.println("CONTAINS_ALL");
@@ -112,7 +113,8 @@ public class Main {
 
         System.out.println();
         System.out.println("ADD_BY_INDEX");
-        stringList.add(3, "A_LIST");
+        System.out.println(stringList.size());
+        stringList.add(7, "A_LIST");
         intList.add(7, -19);
         String[] s4 = stringList.toArray(new String[stringList.size()]);
         Integer[] a4 = intList.toArray(new Integer[intList.size()]);
@@ -124,23 +126,30 @@ public class Main {
         System.out.println(stringList.indexOf("???"));
         System.out.println(stringList.indexOf("A_LIST"));
         System.out.println(intList.indexOf(-19));
-        System.out.println(intList.indexOf(11));
+        System.out.println(intList.indexOf(10));
 
         System.out.println(stringList.add("A_LIST"));
         System.out.println(intList.add(-19));
         System.out.println();
 
+        String[] s5 = stringList.toArray(new String[stringList.size()]);
+        Integer[] a5 = intList.toArray(new Integer[intList.size()]);
+        System.out.println(Arrays.toString(s5));
+        System.out.println(Arrays.toString(a5));
+
+        System.out.println();
         System.out.println("LAST_INDEX_OF");
         System.out.println(stringList.lastIndexOf("FF2FF"));
         System.out.println(stringList.lastIndexOf("A_LIST"));
         System.out.println(intList.lastIndexOf(-19));
         System.out.println(intList.lastIndexOf(11));
+        System.out.println(intList.lastIndexOf(10));
 
         System.out.println();
-        String[] s5 = stringList.toArray(new String[stringList.size()]);
-        Integer[] a5 = intList.toArray(new Integer[intList.size()]);
-        System.out.println(Arrays.toString(s5));
-        System.out.println(Arrays.toString(a5));
+        String[] s6 = stringList.toArray(new String[stringList.size()]);
+        Integer[] a6 = intList.toArray(new Integer[intList.size()]);
+        System.out.println(Arrays.toString(s6));
+        System.out.println(Arrays.toString(a6));
 
         System.out.println();
         System.out.println("GET/SET");
@@ -151,33 +160,40 @@ public class Main {
         System.out.println(intList.set(7, 2018));
         System.out.println(stringList.get(5));
         System.out.println(intList.get(7));
-        String[] s6 = stringList.toArray(new String[stringList.size()]);
-        Integer[] a6 = intList.toArray(new Integer[intList.size()]);
-        System.out.println(Arrays.toString(s6));
-        System.out.println(Arrays.toString(a6));
 
         System.out.println();
         System.out.println("ADD_ALL");
+        String [] sss33 = stringList.toArray(new String [stringList.size()]);
+        System.out.println(Arrays.toString(sss33));
         ArrayList<String> newCollection = new ArrayList<>(5);
         newCollection.add("smth");
         newCollection.add("AAA");
         newCollection.add("ZZZ");
 
+        String [] newCol = newCollection.toArray(new String [newCollection.size()]);
+        System.out.println(Arrays.toString(newCol));
+
         stringList.addAll(newCollection);
         String[] addAll = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(addAll));
 
+        System.out.println();
+        System.out.println("ADD_ALL_FROM_INDEX");
         ArrayList<String> newCollection2 = new ArrayList<>(10);
         newCollection2.add("!___!");
         newCollection2.add(":)");
         newCollection2.add(":<");
         newCollection2.add("aaaaaa");
+        newCollection2.add(":<");
         stringList.add("aaaaaa");
 
-        String[] arrr = newCollection2.toArray(new String[newCollection2.size()]);
+        String[] arrr = stringList.toArray(new String[stringList.size()]);
+        String[] arrr2 = newCollection2.toArray(new String[newCollection2.size()]);
         System.out.println(Arrays.toString(arrr));
+        System.out.println(Arrays.toString(arrr2));
 
-        stringList.addAll(4, newCollection2);
+        System.out.println(stringList.size());
+        stringList.addAll(13, newCollection2);
         String[] addAll2 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(addAll2));
 
@@ -185,7 +201,8 @@ public class Main {
         System.out.println("REMOVE_ALL");
         String[] test1 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(test1));
-        System.out.println(Arrays.toString(arrr));
+        String[] arrr3 = newCollection2.toArray(new String[newCollection2.size()]);
+        System.out.println(Arrays.toString(arrr3));
         System.out.println(stringList.removeAll(newCollection2));
 
         String[] test2 = stringList.toArray(new String[stringList.size()]);
@@ -198,9 +215,9 @@ public class Main {
         ArrayList<String> newCollection3 = new ArrayList<>(10);
         newCollection3.add("???");
         newCollection3.add("AAA");
-        newCollection3.add("ZZZ");
+        newCollection3.add("YYY");
         newCollection3.add("NEW");
-        String[] ar2 = newCollection3.toArray(new String[newCollection2.size()]);
+        String[] ar2 = newCollection3.toArray(new String[newCollection3.size()]);
         System.out.println(Arrays.toString(ar2));
         System.out.println(stringList.retainAll(newCollection3));
         String[] test4 = stringList.toArray(new String[stringList.size()]);
@@ -211,6 +228,12 @@ public class Main {
         Integer[] test5 = intList.toArray(new Integer[intList.size()]);
         System.out.println(Arrays.toString(test5));
 
+        System.out.println();
+        System.out.println("ENSURE_CAPACITY");
+        System.out.println(intList.size());
+        intList.ensureCapacity(20);
+
+        System.out.println();
         System.out.println("CLEAR");
         stringList.clear();
         intList.clear();
