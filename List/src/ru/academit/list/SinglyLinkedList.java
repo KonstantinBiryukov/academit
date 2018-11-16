@@ -16,7 +16,7 @@ public class SinglyLinkedList<T> {
     private ListItem<T> head;
     private int count;
 
-    private ListItem<T> getSinglyLinkedListIterator(int index) {
+    private ListItem<T> getListItemByIndex(int index) {
         if (index >= count) {
             throw new IndexOutOfBoundsException("Index greater than quantity of objects in the list...");
         } else if (index < 0) {
@@ -49,6 +49,9 @@ public class SinglyLinkedList<T> {
     }
 
     public T removeFirst() {
+        if (head == null) {
+            throw new IndexOutOfBoundsException("The list is empty");
+        }
         T prev = head.getData();
         head = head.getNext();
         count--;
@@ -56,27 +59,34 @@ public class SinglyLinkedList<T> {
     }
 
     public T getDataByIndex(int index) {
-        ListItem<T> p = getSinglyLinkedListIterator(index);
+        ListItem<T> p = getListItemByIndex(index);
         return p.getData();
     }
 
     public T setDataByIndex(T newData, int index) {
-        ListItem<T> p = getSinglyLinkedListIterator(index);
+        ListItem<T> p = getListItemByIndex(index);
         T prev = p.getData();
         p.setData(newData);
         return prev;
     }
 
     public void addByIndex(T data, int index) {
-        ListItem<T> p = getSinglyLinkedListIterator(index);
-        ListItem<T> q = new ListItem<>(data);
-        q.setNext(p.getNext());
-        p.setNext(q);
-        count++;
+        if (index == 0) {
+            addFirst(data);
+        } else {
+            ListItem<T> p = getListItemByIndex(index - 1);
+            ListItem<T> q = new ListItem<>(data);
+            q.setNext(p.getNext());
+            p.setNext(q);
+            count++;
+        }
     }
 
     public T removeByIndex(int index) {
-        ListItem<T> p = getSinglyLinkedListIterator(index);
+        if (index == 0) {
+            return removeFirst();
+        }
+        ListItem<T> p = getListItemByIndex(index - 1);
         T prev = p.getData();
         p.setNext(p.getNext().getNext());
         count--;

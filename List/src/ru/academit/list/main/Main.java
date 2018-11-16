@@ -148,5 +148,18 @@ public class Main {
         System.out.println(test6.getDataByIndex(0));
         System.out.println(test6.getDataByIndex(1));
         System.out.println(test6.getDataByIndex(2));
+
+        System.out.println();
+        test6.addByIndex("NEW", 0);
+        System.out.println(test6.getDataByIndex(0));
+        System.out.println(test6.getDataByIndex(1));
+        System.out.println(test6.getDataByIndex(2));
+        System.out.println(test6.getDataByIndex(3));
+
+        System.out.println();
+        test6.removeByIndex(0);
+        System.out.println(test6.getDataByIndex(0));
+        System.out.println(test6.getDataByIndex(1));
+        System.out.println(test6.getDataByIndex(2));
     }
 }
