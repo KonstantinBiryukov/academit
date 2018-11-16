@@ -75,7 +75,7 @@ public class Main {
         System.out.println(list1.getDataByIndex(4));
         System.out.println(list1.getDataByIndex(5));
         System.out.println(list1.getDataByIndex(6));
-     //  System.out.println(list1.getDataByIndex(7));
+        //  System.out.println(list1.getDataByIndex(7));
         System.out.println("count: " + list1.getCount());
 
         System.out.println();
@@ -88,7 +88,7 @@ public class Main {
         System.out.println(t1.getDataByIndex(6));
         System.out.println(t1.getDataByIndex(7));
         System.out.println(t1.getDataByIndex(8));
-     //   System.out.println(t1.getDataByIndex(9));
+        //   System.out.println(t1.getDataByIndex(9));
         System.out.println("count: " + t1.getCount());
 
         System.out.println();
@@ -157,7 +157,8 @@ public class Main {
         System.out.println(test6.getDataByIndex(3));
 
         System.out.println();
-        test6.removeByIndex(0);
+        System.out.println(test6.removeByIndex(1));
+        System.out.println();
         System.out.println(test6.getDataByIndex(0));
         System.out.println(test6.getDataByIndex(1));
         System.out.println(test6.getDataByIndex(2));

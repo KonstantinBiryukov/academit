@@ -87,7 +87,7 @@ public class SinglyLinkedList<T> {
             return removeFirst();
         }
         ListItem<T> p = getListItemByIndex(index - 1);
-        T prev = p.getData();
+        T prev = p.getNext().getData();
         p.setNext(p.getNext().getNext());
         count--;
         return prev;
