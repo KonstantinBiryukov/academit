@@ -36,8 +36,12 @@ public class ArrayList<T> implements List<T> {
     private int modCount;
 
     public ArrayList(int initialCapacity) {
-        //noinspection unchecked
-        items = (T[]) new Object[initialCapacity];
+        if (initialCapacity > 0) {
+            //noinspection unchecked
+            items = (T[]) new Object[initialCapacity];
+        } else {
+            throw new IndexOutOfBoundsException("Capacity must be greater than 0");
+        }
     }
 
     @Override
@@ -52,12 +56,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
-        for (T arrayItem : items) {
-            if (Objects.equals(arrayItem, o)) {
-                return true;
-            }
-        }
-        return false;
+        return indexOf(o) != -1;
     }
 
     private class ArrayListIterator implements Iterator<T> {
@@ -91,10 +90,10 @@ public class ArrayList<T> implements List<T> {
         return Arrays.copyOf(items, length);
     }
 
-    public <T> T[] toArray(T[] a) {
+    public <S> S[] toArray(S[] a) {
         if (a.length < length) {
             //noinspection unchecked
-            return (T[]) Arrays.copyOf(items, length, a.getClass());
+            return (S[]) Arrays.copyOf(items, length, a.getClass());
         }
         System.arraycopy(items, 0, a, 0, length);
         if (a.length > length) {
@@ -129,119 +128,100 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        if (c != null) {
-            int count = 0;
-            for (Object cElement : c) {
-                boolean isContains = this.contains(cElement);
-                if (isContains) {
-                    count++;
-                }
-            }
-            return count == c.size();
+        if (c == null) {
+            throw new NoSuchElementException("The collection does not exist");
         }
-        return false;
+        for (Object cElement : c) {
+            if (!this.contains(cElement)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        if (c != null) {
-            ensureCapacity(length + c.size());
-            for (T cElement : c) {
-                items[length] = cElement;
-                length++;
-            }
-            modCount++;
-            return true;
+        if (c == null) {
+            throw new NoSuchElementException("The collection does not exist");
         }
-        return false;
+        int countChanges = 0;
+        ensureCapacity(length + c.size());
+        for (T cElement : c) {
+            items[countChanges + length] = cElement;
+            countChanges++;
+        }
+        length += countChanges;
+        modCount++;
+        return true;
     }
 
     @Override
     public boolean addAll(int index, Collection<? extends T> c) {
-        if (c != null) {
-            if (index == length) {
-                addAll(c);
-                return true;
-            }
-            if (index > length || index < 0) {
-                throw new IndexOutOfBoundsException("Your index is greater than list's length" + System.lineSeparator() +
-                        "Specify another index or paste more elements into the list to increase capacity...");
-            }
-            ensureCapacity(length + c.size());
-            System.arraycopy(items, index, items, index + c.size(), length - index);
-            int indexCounter = 0;
-            int indexCurrent = index;
-            for (T cElement : c) {
-                if (indexCounter < c.size()) {
-                    items[indexCurrent] = cElement;
-                    indexCounter++;
-                    length++;
-                    indexCurrent++;
-                }
-            }
-            modCount++;
+        if (c == null) {
+            throw new NoSuchElementException("The collection does not exist");
+        }
+        if (index > length || index < 0) {
+            throw new IndexOutOfBoundsException("Your index is greater than list's length or less than 0." +
+                    System.lineSeparator() + "Specify another index or paste more elements into the list to increase capacity...");
+        }
+        if (index == length) {
+            addAll(c);
             return true;
         }
-        return false;
+        ensureCapacity(length + c.size());
+        System.arraycopy(items, index, items, index + c.size(), length - index);
+        int countChanges = 0;
+        int indexCurrent = index;
+        for (T cElement : c) {
+            items[indexCurrent] = cElement;
+            indexCurrent++;
+            countChanges++;
+        }
+        length += countChanges;
+        modCount++;
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        if (c != null) {
-            int count = 0;
-            for (int index = 0; index < length; index++) {
-                for (Object cItem : c) {
-                    if (Objects.equals(items[index], cItem)) {
-                        remove(index);
-                        count++;
-                    }
-                }
-            }
-            modCount++;
-            return count > 0;
+        if (c == null) {
+            throw new NoSuchElementException("The collection does not exist");
         }
-        return false;
+        int count = 0;
+        for (Object cElement : c) {
+            if (contains(cElement)) {
+                count++;
+                remove(cElement);
+            }
+        }
+        modCount++;
+        return count > 0;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        if (c != null) {
-            int count = 0;
-            boolean areEquals;
-            int index = 0;
-            int tempLength = length;
-            for (int i = 0; i < tempLength; ++i) {
-                areEquals = false;
-                for (Object cItem : c) {
-                    if (Objects.equals(items[index], (cItem))) {
-                        areEquals = true;
-                    }
-                }
-                if (!areEquals) {
-                    remove(index);
-                    count++;
-                } else {
-                    index++;
-                }
-            }
-            if (c != this) {
-                modCount++;
-            }
-            return count > 0;
+        if (c == null) {
+            throw new NoSuchElementException("The collection does not exist");
         }
-        return false;
+        boolean areNotEquals = false;
+            for (int i = size() - 1; i >= 0; i--) {
+            if (!c.contains(get(i))) {
+                remove(i);
+                areNotEquals = true;
+            }
+        }
+        return areNotEquals;
     }
 
     @Override
     public void clear() {
-        for (int i = length - 1; i >= 0; i--) {
-            remove(i);
-        }
+        modCount++;
+        length = 0;
     }
 
     @Override
     public T get(int index) {
-        if (index >= length) {
+        if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("Your index is greater than list's length" + System.lineSeparator() +
                     "Specify another index or paste more elements into the list to increase capacity...");
         }
@@ -250,12 +230,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T set(int index, T element) {
-        T prev;
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("Your index is greater than list's length" + System.lineSeparator() +
                     "Specify another index or paste more elements into the list to increase capacity...");
         }
-        prev = items[index];
+        T prev = items[index];
         items[index] = element;
         return prev;
     }
@@ -265,7 +244,8 @@ public class ArrayList<T> implements List<T> {
         if (index > length || index < 0) {
             throw new IndexOutOfBoundsException("Your index is greater than list's length" + System.lineSeparator() +
                     "Specify another index or paste more elements into the list to increase capacity...");
-        } else if (index < length) {
+        }
+        if (index < length) {
             if (length >= items.length) {
                 increaseCapacity();
             }
@@ -283,7 +263,8 @@ public class ArrayList<T> implements List<T> {
         T prev;
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("Your index is greater than list's length");
-        } else if (index < length - 1) {
+        }
+        if (index < length - 1) {
             prev = items[index];
             System.arraycopy(items, index + 1, items, index, length - index - 1);
         } else {

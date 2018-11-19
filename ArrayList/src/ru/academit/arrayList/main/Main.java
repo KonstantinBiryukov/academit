@@ -72,12 +72,12 @@ public class Main {
         System.out.println("CONTAINS");
         System.out.println(Arrays.toString(sss));
         System.out.println(Arrays.toString(aaa));
-        System.out.println(stringList.contains(null));
-        System.out.println(intList.contains(4444));
+        System.out.println(stringList.contains("3"));
+        System.out.println(intList.contains(223));
 
         System.out.println();
         System.out.println("CONTAINS_ALL");
-        ArrayList<String> stringList2 = new ArrayList<>(5);
+        ArrayList<String> stringList2 = new ArrayList<>(1);
         stringList2.add("FFFF");
         stringList2.add("aaaaaa");
         stringList2.add(null);
@@ -163,14 +163,14 @@ public class Main {
 
         System.out.println();
         System.out.println("ADD_ALL");
-        String [] sss33 = stringList.toArray(new String [stringList.size()]);
+        String[] sss33 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(sss33));
         ArrayList<String> newCollection = new ArrayList<>(5);
         newCollection.add("smth");
         newCollection.add("AAA");
         newCollection.add("ZZZ");
 
-        String [] newCol = newCollection.toArray(new String [newCollection.size()]);
+        String[] newCol = newCollection.toArray(new String[newCollection.size()]);
         System.out.println(Arrays.toString(newCol));
 
         stringList.addAll(newCollection);
@@ -199,11 +199,16 @@ public class Main {
 
         System.out.println();
         System.out.println("REMOVE_ALL");
+        ArrayList<String> newCollection5 = new ArrayList<>(10);
+        newCollection5.add("FFFF");
+        newCollection5.add("SET");
+        newCollection5.add(":<");
+
         String[] test1 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(test1));
-        String[] arrr3 = newCollection2.toArray(new String[newCollection2.size()]);
+        String[] arrr3 = newCollection5.toArray(new String[newCollection5.size()]);
         System.out.println(Arrays.toString(arrr3));
-        System.out.println(stringList.removeAll(newCollection2));
+        System.out.println(stringList.removeAll(newCollection5));
 
         String[] test2 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(test2));
