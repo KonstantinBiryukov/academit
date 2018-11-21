@@ -104,8 +104,8 @@ public class Main {
         System.out.println();
         System.out.println("REMOVE_BY_INDEX");
         System.out.println(stringList.size());
-        System.out.println(stringList.remove(4));
-        System.out.println(intList.remove(7));
+        System.out.println(stringList.remove(7));
+        System.out.println(intList.remove(0));
         String[] sss4 = stringList.toArray(new String[stringList.size()]);
         Integer[] aaa4 = intList.toArray(new Integer[intList.size()]);
         System.out.println(Arrays.toString(sss4));
@@ -166,14 +166,15 @@ public class Main {
         String[] sss33 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(sss33));
         ArrayList<String> newCollection = new ArrayList<>(5);
-        newCollection.add("smth");
+        newCollection.add(null);
         newCollection.add("AAA");
         newCollection.add("ZZZ");
 
         String[] newCol = newCollection.toArray(new String[newCollection.size()]);
         System.out.println(Arrays.toString(newCol));
 
-        stringList.addAll(newCollection);
+        System.out.println(stringList.addAll(newCollection));
+
         String[] addAll = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(addAll));
 
@@ -193,7 +194,7 @@ public class Main {
         System.out.println(Arrays.toString(arrr2));
 
         System.out.println(stringList.size());
-        stringList.addAll(13, newCollection2);
+        stringList.addAll(7, newCollection2);
         String[] addAll2 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(addAll2));
 
@@ -203,12 +204,25 @@ public class Main {
         newCollection5.add("FFFF");
         newCollection5.add("SET");
         newCollection5.add(":<");
+        stringList.add(":<");
+        stringList.add(":<");
+        stringList.add(":<");
+        stringList.add(":<");
+        stringList.add(":<");
+        stringList.add(":<");
+        stringList.add(":<");
+        stringList.add("FFFF");
+        stringList.add("FFFF");
+        stringList.add("FFFF");
+        stringList.add("FFFF");
 
         String[] test1 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(test1));
         String[] arrr3 = newCollection5.toArray(new String[newCollection5.size()]);
         System.out.println(Arrays.toString(arrr3));
+        System.out.println(stringList.size());
         System.out.println(stringList.removeAll(newCollection5));
+        System.out.println(stringList.size());
 
         String[] test2 = stringList.toArray(new String[stringList.size()]);
         System.out.println(Arrays.toString(test2));

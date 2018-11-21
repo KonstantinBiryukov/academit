@@ -36,12 +36,11 @@ public class ArrayList<T> implements List<T> {
     private int modCount;
 
     public ArrayList(int initialCapacity) {
-        if (initialCapacity > 0) {
-            //noinspection unchecked
-            items = (T[]) new Object[initialCapacity];
-        } else {
+        if (initialCapacity <= 0) {
             throw new IndexOutOfBoundsException("Capacity must be greater than 0");
         }
+        //noinspection unchecked
+        items = (T[]) new Object[initialCapacity];
     }
 
     @Override
@@ -144,13 +143,13 @@ public class ArrayList<T> implements List<T> {
         if (c == null) {
             throw new NoSuchElementException("The collection does not exist");
         }
-        int countChanges = 0;
+        int i = 0;
         ensureCapacity(length + c.size());
         for (T cElement : c) {
-            items[countChanges + length] = cElement;
-            countChanges++;
+            items[i + length] = cElement;
+            i++;
         }
-        length += countChanges;
+        length += c.size();
         modCount++;
         return true;
     }
@@ -162,7 +161,8 @@ public class ArrayList<T> implements List<T> {
         }
         if (index > length || index < 0) {
             throw new IndexOutOfBoundsException("Your index is greater than list's length or less than 0." +
-                    System.lineSeparator() + "Specify another index or paste more elements into the list to increase capacity...");
+                    System.lineSeparator() +
+                    "Specify another index or paste more elements into the list to increase capacity...");
         }
         if (index == length) {
             addAll(c);
@@ -170,14 +170,12 @@ public class ArrayList<T> implements List<T> {
         }
         ensureCapacity(length + c.size());
         System.arraycopy(items, index, items, index + c.size(), length - index);
-        int countChanges = 0;
-        int indexCurrent = index;
+        int i = index;
         for (T cElement : c) {
-            items[indexCurrent] = cElement;
-            indexCurrent++;
-            countChanges++;
+            items[i] = cElement;
+            i++;
         }
-        length += countChanges;
+        length += c.size();
         modCount++;
         return true;
     }
@@ -187,15 +185,17 @@ public class ArrayList<T> implements List<T> {
         if (c == null) {
             throw new NoSuchElementException("The collection does not exist");
         }
-        int count = 0;
+        boolean isRemoved = false;
         for (Object cElement : c) {
-            if (contains(cElement)) {
-                count++;
-                remove(cElement);
+            for (int i = 0; i < length; i++) {
+                if (Objects.equals(items[i], cElement)) {
+                    remove(items[i]);
+                    i--;
+                    isRemoved = true;
+                }
             }
         }
-        modCount++;
-        return count > 0;
+        return isRemoved;
     }
 
     @Override
@@ -204,7 +204,7 @@ public class ArrayList<T> implements List<T> {
             throw new NoSuchElementException("The collection does not exist");
         }
         boolean areNotEquals = false;
-            for (int i = size() - 1; i >= 0; i--) {
+        for (int i = size() - 1; i >= 0; i--) {
             if (!c.contains(get(i))) {
                 remove(i);
                 areNotEquals = true;
@@ -260,16 +260,11 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public T remove(int index) {
-        T prev;
         if (index >= length || index < 0) {
             throw new IndexOutOfBoundsException("Your index is greater than list's length");
         }
-        if (index < length - 1) {
-            prev = items[index];
-            System.arraycopy(items, index + 1, items, index, length - index - 1);
-        } else {
-            prev = items[index];
-        }
+        T prev = items[index];
+        System.arraycopy(items, index + 1, items, index, length - index - 1);
         length--;
         modCount++;
         return prev;
