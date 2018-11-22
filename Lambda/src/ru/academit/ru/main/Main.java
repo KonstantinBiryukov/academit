@@ -44,9 +44,10 @@ public class Main {
         // И по каждой группе посчитать средний возраст - среднее арифметическое.
         // И получить такой map - ключ - имя человека, значение - средний возраст людей с таким именем.
 
-        Map<String, Double> personsByName2 = people.stream()
+        Map<String, Double> personsByName = people.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingDouble(Person::getAge)));
-        personsByName2.forEach((name, avgAge) ->
+
+        personsByName.forEach((name, avgAge) ->
                 System.out.printf("name %s: %s%n", name, avgAge));
 
         // Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
