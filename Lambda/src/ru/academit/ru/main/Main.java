@@ -13,10 +13,10 @@ public class Main {
         Person person1 = new Person("Ivan", 23);
         Person person2 = new Person("Alexander", 17);
         Person person3 = new Person("Petr", 26);
-        Person person4 = new Person("Nikolai", 14);
+        Person person4 = new Person("Alexander", 14);
         Person person5 = new Person("Irina", 50);
         Person person6 = new Person("Max", 49);
-        Person person7 = new Person("Max", 49);
+        Person person7 = new Person("Max", 47);
         Person person8 = new Person("Irina", 51);
 
         List<Person> people = Arrays.asList(person1, person2, person3, person4, person5, person6, person7, person8);
@@ -38,16 +38,14 @@ public class Main {
         System.out.println();
 
         // Г) при помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст
-        Map<String, List<Person>> personsByName = people.stream()
-                .collect(Collectors.groupingBy(Person::getName));
+        // Разбить в группы людей по равенству имени.
+        // И по каждой группе посчитать средний возраст - среднее арифметическое.
+        // И получить такой map - ключ - имя человека, значение - средний возраст людей с таким именем.
 
-        for (Map.Entry<String, List<Person>> item : personsByName.entrySet()) {
-            System.out.println(item.getKey());
-            for (Person person : item.getValue()) {
-                System.out.println(person.getName());
-            }
-        }
-        System.out.println();
+        Map<String, Double> personsByName2 = people.stream()
+                .collect(Collectors.groupingBy(Person::getName, Collectors.averagingDouble(Person::getAge)));
+        personsByName2.forEach((name, avgAge) ->
+                System.out.printf("name %s: %s%n", name, avgAge));
 
         // Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
         List<Person> peopleFrom20to45 =
@@ -70,7 +68,8 @@ public class Main {
         System.out.println();
         System.out.println("fibonacciSequence");
         Stream.iterate(new int[]{0, 1}, s -> new int[]{s[1], s[0] + s[1]})
+                .map(s -> s[0])
                 .limit(20)
-                .map(s -> s[0]).forEach(s -> System.out.printf("%s | ", s));
+                .forEach(s -> System.out.printf("%s | ", s));
     }
 }
