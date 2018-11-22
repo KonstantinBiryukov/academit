@@ -22,6 +22,7 @@ public class Main {
         List<Person> people = Arrays.asList(person1, person2, person3, person4, person5, person6, person7, person8);
         //• А) получить список уникальных имен
         //• Б) вывести список уникальных имен в формате - Имена: Иван, Сергей, Петр.
+
         String uniqueNames = people.stream()
                 .map(Person::getName)
                 .distinct()
@@ -31,6 +32,7 @@ public class Main {
         System.out.println();
 
         // В) получить список людей младше 18, посчитать для них средний возраст
+
         IntStream lessThan18 = people.stream()
                 .mapToInt(Person::getAge)
                 .filter(x -> x < 18);
@@ -48,6 +50,7 @@ public class Main {
                 System.out.printf("name %s: %s%n", name, avgAge));
 
         // Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
+
         List<Person> peopleFrom20to45 =
                 people.stream()
                         .filter(x -> x.getAge() >= 20 && x.getAge() <= 45)
@@ -56,9 +59,10 @@ public class Main {
 
         peopleFrom20to45.forEach(p -> System.out.println(p.getName()));
 
-// Создать бесконечный поток корней чисел. С консоли прочитать число – сколько элементов нужно вычислить,
-// затем – распечатать эти элементы
-// * Попробовать реализовать бесконечный поток чисел Фиббоначчи
+        // Создать бесконечный поток корней чисел. С консоли прочитать число – сколько элементов нужно вычислить,
+        // затем – распечатать эти элементы
+        // * Попробовать реализовать бесконечный поток чисел Фиббоначчи
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите число - сколько элементов нужно вычислить при создании потока корней чисел...");
         int limit = scanner.nextInt();
