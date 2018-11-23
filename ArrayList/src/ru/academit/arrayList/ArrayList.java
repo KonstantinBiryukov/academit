@@ -143,6 +143,9 @@ public class ArrayList<T> implements List<T> {
         if (c == null) {
             throw new NoSuchElementException("The collection does not exist");
         }
+        if (c.size() == 0) {
+            return false;
+        }
         int i = 0;
         ensureCapacity(length + c.size());
         for (T cElement : c) {
@@ -168,6 +171,9 @@ public class ArrayList<T> implements List<T> {
             addAll(c);
             return true;
         }
+        if (c.size() == 0) {
+            return false;
+        }
         ensureCapacity(length + c.size());
         System.arraycopy(items, index, items, index + c.size(), length - index);
         int i = index;
@@ -186,13 +192,10 @@ public class ArrayList<T> implements List<T> {
             throw new NoSuchElementException("The collection does not exist");
         }
         boolean isRemoved = false;
-        for (Object cElement : c) {
-            for (int i = 0; i < length; i++) {
-                if (Objects.equals(items[i], cElement)) {
-                    remove(items[i]);
-                    i--;
-                    isRemoved = true;
-                }
+        for (int i = size() - 1; i >= 0; i--) {
+            if (c.contains(items[i])) {
+                remove(i);
+                isRemoved = true;
             }
         }
         return isRemoved;
@@ -252,19 +255,21 @@ public class ArrayList<T> implements List<T> {
             System.arraycopy(items, index, items, index + 1, length - index);
             items[index] = element;
             length++;
-            modCount++;
         } else { // index == length
             add(element);
         }
+        modCount++;
     }
 
     @Override
     public T remove(int index) {
         if (index >= length || index < 0) {
-            throw new IndexOutOfBoundsException("Your index is greater than list's length");
+            throw new IndexOutOfBoundsException("Your index is greater than list's length or or less than 0.");
         }
         T prev = items[index];
-        System.arraycopy(items, index + 1, items, index, length - index - 1);
+        if (index < length - 1) {
+            System.arraycopy(items, index + 1, items, index, length - index - 1);
+        }
         length--;
         modCount++;
         return prev;

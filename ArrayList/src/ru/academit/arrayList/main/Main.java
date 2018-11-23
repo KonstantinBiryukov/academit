@@ -104,7 +104,7 @@ public class Main {
         System.out.println();
         System.out.println("REMOVE_BY_INDEX");
         System.out.println(stringList.size());
-        System.out.println(stringList.remove(7));
+        System.out.println(stringList.remove(6));
         System.out.println(intList.remove(0));
         String[] sss4 = stringList.toArray(new String[stringList.size()]);
         Integer[] aaa4 = intList.toArray(new Integer[intList.size()]);
@@ -173,6 +173,7 @@ public class Main {
         String[] newCol = newCollection.toArray(new String[newCollection.size()]);
         System.out.println(Arrays.toString(newCol));
 
+        newCollection.clear();
         System.out.println(stringList.addAll(newCollection));
 
         String[] addAll = stringList.toArray(new String[stringList.size()]);
