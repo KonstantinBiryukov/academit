@@ -8,7 +8,7 @@ public class Model {
     }
 
     public double convertFromCelsiusToFahrenheit(double C) {
-        return C * (9 / 5) + FAHRENHEIT_VALUE;
+        return C * 9 / 5 + FAHRENHEIT_VALUE;
     }
 
     public double convertFromKelvinToCelsius(double K) {
