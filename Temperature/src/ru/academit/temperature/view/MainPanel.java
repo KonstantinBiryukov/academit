@@ -45,7 +45,7 @@ public class MainPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (!isInteger(IOPanel.getInputForm().getText())) {
+            if (!isNumber(IOPanel.getInputForm().getText())) {
                 JOptionPane.showMessageDialog(new JFrame(), "Only numbers are permitted");
             } else {
                 String inputFormText = IOPanel.getInputForm().getText();
@@ -81,13 +81,13 @@ public class MainPanel {
                     String sToString = String.valueOf(sConvert);
                     IOPanel.getOutputForm().setText(sToString);
                 } else {
-                    JOptionPane.showMessageDialog(new JFrame(), "Choose the button FROM and TO to make a conversion");
+                    JOptionPane.showMessageDialog(new JFrame(), "Choose the buttons FROM and TO to make a conversion");
                 }
             }
         }
     }
 
-    private static boolean isInteger(String s) {
+    private static boolean isNumber (String s) {
         try {
             Integer.parseInt(s);
         } catch (NumberFormatException | NullPointerException e) {
