@@ -255,10 +255,10 @@ public class ArrayList<T> implements List<T> {
             System.arraycopy(items, index, items, index + 1, length - index);
             items[index] = element;
             length++;
+            modCount++;
         } else { // index == length
             add(element);
         }
-        modCount++;
     }
 
     @Override
