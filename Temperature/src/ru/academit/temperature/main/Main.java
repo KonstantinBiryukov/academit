@@ -1,4 +1,4 @@
-// Сделать программу на Swing для перевода температуры из одной шкалы в другую.
+// Сделать программу на SwiRng для перевода температуры из одной шкалы в другую.
 // Необходимая функциональность:
 //1.	Ввод температуры в поле ввода
 //2.	Должна быть кнопка, которая переводит температуру из одной шкалы в другую
@@ -17,7 +17,7 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) throws Exception {
         SwingUtilities.invokeLater(() -> {
-            View view = new View("View");
+            View view = new View();
             Model model = new Model();
         });
     }
