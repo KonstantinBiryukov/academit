@@ -15,8 +15,8 @@ public class IOPanel {
         inputForm.addActionListener(e -> inputForm.setText(inputForm.getText()));
         outputForm = new JLabel("OUTPUT");
 
-        from = new JLabel("From Celsius");
-        to = new JLabel("To Kelvin");
+        from = new JLabel("From...");
+        to = new JLabel("To...");
         IOPanel = new JPanel(new GridLayout(2, 2));
         IOPanel.setOpaque(true);
         IOPanel.setBackground(Color.CYAN);
@@ -33,7 +33,6 @@ public class IOPanel {
     public void setTo(String text) {
         to.setText(text);
     }
-
 
     public JLabel getOutputForm() {
         return outputForm;

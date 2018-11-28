@@ -10,19 +10,17 @@ public class ScalePanel {
     private JRadioButton celsiusInput;
     private JRadioButton kelvinInput;
     private JRadioButton fahrenheitInput;
-    private ButtonGroup inputGroup;
 
     private JRadioButton celsiusOutput;
     private JRadioButton kelvinOutput;
     private JRadioButton fahrenheitOutput;
-    private ButtonGroup outputGroup;
 
     public ScalePanel(IOPanel IOPanel) {
         this.IOPanel = IOPanel;
         celsiusInput = new JRadioButton("From Celsius");
         kelvinInput = new JRadioButton("From Kelvin");
         fahrenheitInput = new JRadioButton("From Fahrenheit");
-        inputGroup = new ButtonGroup();
+        ButtonGroup inputGroup = new ButtonGroup();
         inputGroup.add(celsiusInput);
         inputGroup.add(kelvinInput);
         inputGroup.add(fahrenheitInput);
@@ -30,7 +28,7 @@ public class ScalePanel {
         celsiusOutput = new JRadioButton("To Celsius");
         kelvinOutput = new JRadioButton("To Kelvin");
         fahrenheitOutput = new JRadioButton("To Fahrenheit");
-        outputGroup = new ButtonGroup();
+        ButtonGroup outputGroup = new ButtonGroup();
         outputGroup.add(celsiusOutput);
         outputGroup.add(kelvinOutput);
         outputGroup.add(fahrenheitOutput);

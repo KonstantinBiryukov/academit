@@ -24,7 +24,7 @@ public class Model {
     }
 
     public double convertFromFahrenheitToCelsius(double F) {
-        return (F - FAHRENHEIT_VALUE) * (5 / 9);
+        return (F - FAHRENHEIT_VALUE) * 5 / 9;
     }
 }
 
