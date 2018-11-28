@@ -1,4 +1,5 @@
 package ru.academit.temperature.model;
+
 public class Model {
     private final double ABSOLUTE_ZERO = -273.15;
     private final int FAHRENHEIT_VALUE = 32;
@@ -20,11 +21,12 @@ public class Model {
     }
 
     public double convertFromFahrenheitToKelvin(double F) {
-        return 5 * (F - FAHRENHEIT_VALUE) / 9 - ABSOLUTE_ZERO;
+        double x = 5 * (F - FAHRENHEIT_VALUE) / 9 - ABSOLUTE_ZERO;
+        return Math.round(x * 100.0) / 100.0;
     }
 
     public double convertFromFahrenheitToCelsius(double F) {
-        return (F - FAHRENHEIT_VALUE) * 5 / 9;
+        double x = (F - FAHRENHEIT_VALUE) * 5 / 9;
+        return Math.round(x * 100.0) / 100.0;
     }
 }
-
