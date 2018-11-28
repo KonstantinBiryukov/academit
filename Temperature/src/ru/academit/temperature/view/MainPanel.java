@@ -57,37 +57,36 @@ public class MainPanel {
                         scalePanel.getFahrenheitInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
                     IOPanel.getOutputForm().setText(inputFormText);
                 } else if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getKelvinOutput().isSelected()) {
-                    double sConvert = model.convertFromCelsiusToKelvin(inputToDouble);
-                    String sToString = String.valueOf(sConvert);
-                    IOPanel.getOutputForm().setText(sToString);
+                    double valueConverted = model.convertFromCelsiusToKelvin(inputToDouble);
+                    setResult(valueConverted);
                 } else if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    double sConvert = model.convertFromCelsiusToFahrenheit(inputToDouble);
-                    String sToString = String.valueOf(sConvert);
-                    IOPanel.getOutputForm().setText(sToString);
+                    double valueConverted = model.convertFromCelsiusToFahrenheit(inputToDouble);
+                    setResult(valueConverted);
                 } else if (scalePanel.getKelvinInput().isSelected() && scalePanel.getCelsiusOutput().isSelected()) {
-                    double sConvert = model.convertFromKelvinToCelsius(inputToDouble);
-                    String sToString = String.valueOf(sConvert);
-                    IOPanel.getOutputForm().setText(sToString);
+                    double valueConverted = model.convertFromKelvinToCelsius(inputToDouble);
+                    setResult(valueConverted);
                 } else if (scalePanel.getKelvinInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    double sConvert = model.convertFromKelvinToFahrenheit(inputToDouble);
-                    String sToString = String.valueOf(sConvert);
-                    IOPanel.getOutputForm().setText(sToString);
+                    double valueConverted = model.convertFromKelvinToFahrenheit(inputToDouble);
+                    setResult(valueConverted);
                 } else if (scalePanel.getFahrenheitInput().isSelected() && scalePanel.getCelsiusOutput().isSelected()) {
-                    double sConvert = model.convertFromFahrenheitToCelsius(inputToDouble);
-                    String sToString = String.valueOf(sConvert);
-                    IOPanel.getOutputForm().setText(sToString);
+                    double valueConverted = model.convertFromFahrenheitToCelsius(inputToDouble);
+                    setResult(valueConverted);
                 } else if (scalePanel.getFahrenheitInput().isSelected() && scalePanel.getKelvinOutput().isSelected()) {
-                    double sConvert = model.convertFromFahrenheitToKelvin(inputToDouble);
-                    String sToString = String.valueOf(sConvert);
-                    IOPanel.getOutputForm().setText(sToString);
+                    double valueConverted = model.convertFromFahrenheitToKelvin(inputToDouble);
+                    setResult(valueConverted);
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Choose the buttons FROM and TO to make a conversion");
                 }
             }
         }
+
+        private void setResult(double valueConverted) {
+            String sToString = String.valueOf(valueConverted);
+            IOPanel.getOutputForm().setText(sToString);
+        }
     }
 
-    private static boolean isNumber (String s) {
+    private static boolean isNumber(String s) {
         try {
             Integer.parseInt(s);
         } catch (NumberFormatException | NullPointerException e) {
