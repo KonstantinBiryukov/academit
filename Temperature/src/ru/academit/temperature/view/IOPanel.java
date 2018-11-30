@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class IOPanel {
-    private JPanel IOPanel;
+    private JPanel inputOutputPanel;
     private JLabel from;
     private JLabel to;
     private JTextField inputForm;
@@ -17,13 +17,13 @@ public class IOPanel {
 
         from = new JLabel("From...");
         to = new JLabel("To...");
-        IOPanel = new JPanel(new GridLayout(2, 2));
-        IOPanel.setOpaque(true);
-        IOPanel.setBackground(Color.CYAN);
-        IOPanel.add(from);
-        IOPanel.add(to);
-        IOPanel.add(inputForm);
-        IOPanel.add(outputForm);
+        inputOutputPanel = new JPanel(new GridLayout(2, 2));
+        inputOutputPanel.setOpaque(true);
+        inputOutputPanel.setBackground(Color.CYAN);
+        inputOutputPanel.add(from);
+        inputOutputPanel.add(to);
+        inputOutputPanel.add(inputForm);
+        inputOutputPanel.add(outputForm);
     }
 
     public void setFrom(String text) {
@@ -42,7 +42,7 @@ public class IOPanel {
         return inputForm;
     }
 
-    public JPanel getIOPanel() {
-        return IOPanel;
+    public JPanel getInputOutputPanel() {
+        return inputOutputPanel;
     }
 }

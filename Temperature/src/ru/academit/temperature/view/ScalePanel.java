@@ -5,7 +5,6 @@ import java.awt.*;
 
 public class ScalePanel {
     private JPanel scalePanel;
-    private IOPanel IOPanel;
 
     private JRadioButton celsiusInput;
     private JRadioButton kelvinInput;
@@ -15,8 +14,7 @@ public class ScalePanel {
     private JRadioButton kelvinOutput;
     private JRadioButton fahrenheitOutput;
 
-    public ScalePanel(IOPanel IOPanel) {
-        this.IOPanel = IOPanel;
+    public ScalePanel(IOPanel inputOutputPanel) {
         celsiusInput = new JRadioButton("From Celsius");
         kelvinInput = new JRadioButton("From Kelvin");
         fahrenheitInput = new JRadioButton("From Fahrenheit");
@@ -33,13 +31,13 @@ public class ScalePanel {
         outputGroup.add(kelvinOutput);
         outputGroup.add(fahrenheitOutput);
 
-        celsiusInput.addActionListener(e -> IOPanel.setFrom("From Celsius"));
-        kelvinInput.addActionListener(e -> IOPanel.setFrom("From Kelvin"));
-        fahrenheitInput.addActionListener(e -> IOPanel.setFrom("From Fahrenheit"));
+        celsiusInput.addActionListener(e -> inputOutputPanel.setFrom("From Celsius"));
+        kelvinInput.addActionListener(e -> inputOutputPanel.setFrom("From Kelvin"));
+        fahrenheitInput.addActionListener(e -> inputOutputPanel.setFrom("From Fahrenheit"));
 
-        celsiusOutput.addActionListener(e -> IOPanel.setTo("To Celsius"));
-        kelvinOutput.addActionListener(e -> IOPanel.setTo("To Kelvin"));
-        fahrenheitOutput.addActionListener(e -> IOPanel.setTo("To Fahrenheit"));
+        celsiusOutput.addActionListener(e -> inputOutputPanel.setTo("To Celsius"));
+        kelvinOutput.addActionListener(e -> inputOutputPanel.setTo("To Kelvin"));
+        fahrenheitOutput.addActionListener(e -> inputOutputPanel.setTo("To Fahrenheit"));
 
         scalePanel = new JPanel(new GridLayout(3, 3));
         scalePanel.add(celsiusInput);

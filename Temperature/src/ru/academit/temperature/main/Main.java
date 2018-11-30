@@ -9,7 +9,6 @@
 //7.	Обязательно использовать layout manager’ы
 package ru.academit.temperature.main;
 
-import ru.academit.temperature.model.Model;
 import ru.academit.temperature.view.View;
 
 import javax.swing.*;
@@ -18,7 +17,6 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             View view = new View();
-            Model model = new Model();
         });
     }
 }

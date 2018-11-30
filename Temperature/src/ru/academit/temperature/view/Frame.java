@@ -17,7 +17,7 @@ public class Frame {
         frame.setSize(width, height);
 
         MainPanel panel = new MainPanel();
-        frame.add(panel.getPanel());
+        frame.add(panel.getMainPanel());
     }
 
     public JFrame getFrame() {

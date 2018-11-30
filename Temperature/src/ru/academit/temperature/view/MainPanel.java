@@ -8,54 +8,56 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainPanel {
-    private JPanel panel;
-    private IOPanel IOPanel;
+    private JPanel mainPanel;
+    private IOPanel inputOutputPanel;
     private ScalePanel scalePanel;
 
     public MainPanel() {
-        panel = new JPanel(new GridBagLayout());
+        mainPanel = new JPanel(new GridBagLayout());
         JButton conversionButton = new JButton("convert");
 
         conversionButton.setOpaque(true);
         conversionButton.setBackground(Color.RED);
         GridBagConstraints c = new GridBagConstraints();
-        panel.setBackground(Color.LIGHT_GRAY);
+        mainPanel.setBackground(Color.LIGHT_GRAY);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = 3;
         c.gridy = 1;
         c.ipady = 30;
         conversionButton.setFont(new Font("Helvetica Neue", Font.PLAIN, 25));
 
-        panel.add(conversionButton, c);
+        mainPanel.add(conversionButton, c);
 
-        IOPanel = new IOPanel();
-        scalePanel = new ScalePanel(IOPanel);
+        inputOutputPanel = new IOPanel();
+        scalePanel = new ScalePanel(inputOutputPanel);
 
-        panel.add(IOPanel.getIOPanel());
-        panel.add(scalePanel.getScalePanel());
+        mainPanel.add(inputOutputPanel.getInputOutputPanel());
+        mainPanel.add(scalePanel.getScalePanel());
 
         conversionButton.addActionListener(new conversionButtonListener());
     }
 
-    public JPanel getPanel() {
-        return panel;
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
 
     public class conversionButtonListener implements ActionListener {
+        Model model;
+
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if (!isNumber(IOPanel.getInputForm().getText())) {
+            if (!isNumber(inputOutputPanel.getInputForm().getText())) {
                 JOptionPane.showMessageDialog(new JFrame(), "Only numbers are permitted");
             } else {
-                String inputFormText = IOPanel.getInputForm().getText();
+                String inputFormText = inputOutputPanel.getInputForm().getText();
                 double inputToDouble = Double.parseDouble(inputFormText);
-                Model model = new Model();
+                model = new Model();
 
                 if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getCelsiusOutput().isSelected() ||
                         scalePanel.getKelvinInput().isSelected() && scalePanel.getKelvinOutput().isSelected() ||
                         scalePanel.getFahrenheitInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    IOPanel.getOutputForm().setText(inputFormText);
+                    inputOutputPanel.getOutputForm().setText(inputFormText);
                 } else if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getKelvinOutput().isSelected()) {
                     double valueConverted = model.convertFromCelsiusToKelvin(inputToDouble);
                     setResult(valueConverted);
@@ -81,8 +83,8 @@ public class MainPanel {
         }
 
         private void setResult(double valueConverted) {
-            String sToString = String.valueOf(valueConverted);
-            IOPanel.getOutputForm().setText(sToString);
+            String valueToString = String.valueOf(valueConverted);
+            inputOutputPanel.getOutputForm().setText(valueToString);
         }
     }
 
