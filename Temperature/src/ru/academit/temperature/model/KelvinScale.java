@@ -4,10 +4,12 @@ public class KelvinScale {
     private final double ABSOLUTE_ZERO = -273.15;
 
     public double convertFromKelvinToCelsius(double k) {
-        return k + ABSOLUTE_ZERO;
+        double x = k + ABSOLUTE_ZERO;
+        return Math.round(x * 100.0) / 100.0;
     }
 
     public double convertFromCelsiusToKelvin(double c) {
-        return c - ABSOLUTE_ZERO;
+        double x = c - ABSOLUTE_ZERO;
+        return Math.round(x * 100.0) / 100.0;
     }
 }
