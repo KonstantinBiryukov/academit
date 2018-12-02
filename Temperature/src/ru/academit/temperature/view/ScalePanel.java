@@ -2,6 +2,7 @@ package ru.academit.temperature.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class ScalePanel {
     private JPanel scalePanel;
@@ -48,6 +49,7 @@ public class ScalePanel {
         scalePanel.add(fahrenheitOutput);
         scalePanel.setOpaque(true);
         scalePanel.setBackground(Color.ORANGE);
+
     }
 
     public JPanel getScalePanel() {
