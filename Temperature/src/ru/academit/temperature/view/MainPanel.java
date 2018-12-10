@@ -1,12 +1,12 @@
 package ru.academit.temperature.view;
 
-import ru.academit.temperature.model.FahrenheitScale;
-import ru.academit.temperature.model.KelvinScale;
+import ru.academit.temperature.model.IScale;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainPanel {
     private JPanel mainPanel;
@@ -35,54 +35,42 @@ public class MainPanel {
         mainPanel.add(inputOutputPanel.getInputOutputPanel());
         mainPanel.add(scalePanel.getScalePanel());
 
-        conversionButton.addActionListener(new conversionButtonListener());
+        conversionButton.addActionListener(new ConversionButtonListener());
     }
 
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
-    public class conversionButtonListener implements ActionListener {
-        FahrenheitScale fahrenheitScale;
-        KelvinScale kelvinScale;
+    public class ConversionButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             if (!isNumber(inputOutputPanel.getInputForm().getText())) {
                 JOptionPane.showMessageDialog(new JFrame(), "Only numbers are permitted");
             } else {
                 String inputFormText = inputOutputPanel.getInputForm().getText();
                 double inputToDouble = Double.parseDouble(inputFormText);
-                kelvinScale = new KelvinScale();
-                fahrenheitScale = new FahrenheitScale();
 
-                if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getCelsiusOutput().isSelected() ||
-                        scalePanel.getKelvinInput().isSelected() && scalePanel.getKelvinOutput().isSelected() ||
-                        scalePanel.getFahrenheitInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    inputOutputPanel.getOutputForm().setText(inputFormText);
-                } else if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getKelvinOutput().isSelected()) {
-                    double valueConverted = kelvinScale.convertFromCelsiusToKelvin(inputToDouble);
+                IScale currentScale = scalePanel.getChosenScale();
+                ArrayList<IScale> scales = scalePanel.getScales();
+
+                if (scalePanel.getCelsiusInput().isSelected() && !scalePanel.getCelsiusOutput().isSelected()) {
+                    double valueConverted = currentScale.fromCelsius(inputToDouble);
                     setResult(valueConverted);
-                } else if (scalePanel.getCelsiusInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    double valueConverted = fahrenheitScale.convertFromCelsiusToFahrenheit(inputToDouble);
-                    setResult(valueConverted);
-                } else if (scalePanel.getKelvinInput().isSelected() && scalePanel.getCelsiusOutput().isSelected()) {
-                    double valueConverted = kelvinScale.convertFromKelvinToCelsius(inputToDouble);
+                } else if (scalePanel.getCelsiusOutput().isSelected() && !scalePanel.getCelsiusInput().isSelected()) {
+                    double valueConverted = currentScale.toCelsius(inputToDouble);
                     setResult(valueConverted);
                 } else if (scalePanel.getKelvinInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    double valueToCelsius = kelvinScale.convertFromKelvinToCelsius(inputToDouble);
-                    double valueConverted = fahrenheitScale.convertFromCelsiusToFahrenheit(valueToCelsius);
-                    setResult(valueConverted);
-                } else if (scalePanel.getFahrenheitInput().isSelected() && scalePanel.getCelsiusOutput().isSelected()) {
-                    double valueConverted = fahrenheitScale.convertFromFahrenheitToCelsius(inputToDouble);
+                    double valueToCelsius = scales.get(0).toCelsius(inputToDouble);
+                    double valueConverted = scales.get(1).fromCelsius(valueToCelsius);
                     setResult(valueConverted);
                 } else if (scalePanel.getFahrenheitInput().isSelected() && scalePanel.getKelvinOutput().isSelected()) {
-                    double valueToCelsius = fahrenheitScale.convertFromFahrenheitToCelsius(inputToDouble);
-                    double valueConverted = kelvinScale.convertFromCelsiusToKelvin(valueToCelsius);
+                    double valueToCelsius = scales.get(1).toCelsius(inputToDouble);
+                    double valueConverted = scales.get(0).fromCelsius(valueToCelsius);
                     setResult(valueConverted);
                 } else {
-                    JOptionPane.showMessageDialog(new JFrame(), "Choose the buttons FROM and TO to make a conversion");
+                    JOptionPane.showMessageDialog(new JFrame(), "Choose the different buttons FROM and TO to make a conversion");
                 }
             }
         }
