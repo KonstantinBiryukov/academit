@@ -14,4 +14,9 @@ public class FahrenheitScale implements IScale {
         double x = celsius * 9.0 / 5 + FAHRENHEIT_VALUE;
         return Math.round(x * 100.0) / 100.0;
     }
+
+    @Override
+    public String getName() {
+        return "Fahrenheit";
+    }
 }

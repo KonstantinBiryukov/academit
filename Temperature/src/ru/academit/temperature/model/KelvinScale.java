@@ -14,4 +14,9 @@ public class KelvinScale implements IScale {
         double x = celsius - ABSOLUTE_ZERO;
         return Math.round(x * 100.0) / 100.0;
     }
+
+    @Override
+    public String getName() {
+        return "Kelvin";
+    }
 }

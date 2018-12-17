@@ -8,22 +8,32 @@ public class IOPanel {
     private JLabel from;
     private JLabel to;
     private JTextField inputForm;
-    private JLabel outputForm;
+    private JLabel outputLabel;
+    private JLabel inputLabel;
 
     public IOPanel() {
-        inputForm = new JTextField("Input Temperature", 10);
-        inputForm.addActionListener(e -> inputForm.setText(inputForm.getText()));
-        outputForm = new JLabel("OUTPUT");
+        JLabel inputTemperature = new JLabel("Input temperature");
+        inputForm = new JTextField(10);
+        inputLabel = new JLabel("INPUT");
+        inputForm.addActionListener(e -> {
+            inputForm.setText(inputForm.getText());
+            inputLabel.setText(inputForm.getText());
+        });
+        outputLabel = new JLabel("OUTPUT");
 
         from = new JLabel("From...");
         to = new JLabel("To...");
-        inputOutputPanel = new JPanel(new GridLayout(2, 2));
+        inputOutputPanel = new JPanel(new GridLayout(3, 2));
         inputOutputPanel.setOpaque(true);
         inputOutputPanel.setBackground(Color.CYAN);
+
+        inputOutputPanel.add(inputTemperature);
+        inputOutputPanel.add(inputForm);
+
         inputOutputPanel.add(from);
         inputOutputPanel.add(to);
-        inputOutputPanel.add(inputForm);
-        inputOutputPanel.add(outputForm);
+        inputOutputPanel.add(inputLabel);
+        inputOutputPanel.add(outputLabel);
     }
 
     public void setFrom(String text) {
@@ -34,8 +44,12 @@ public class IOPanel {
         to.setText(text);
     }
 
-    public JLabel getOutputForm() {
-        return outputForm;
+    public JLabel getOutputLabel() {
+        return outputLabel;
+    }
+
+    public JLabel getInputLabel() {
+        return inputLabel;
     }
 
     public JTextField getInputForm() {

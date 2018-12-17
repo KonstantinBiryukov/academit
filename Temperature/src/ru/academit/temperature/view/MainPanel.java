@@ -13,7 +13,7 @@ public class MainPanel {
     private IOPanel inputOutputPanel;
     private ScalePanel scalePanel;
 
-    public MainPanel() {
+    public MainPanel(ArrayList<IScale> scales) {
         mainPanel = new JPanel(new GridBagLayout());
         JButton conversionButton = new JButton("convert");
 
@@ -30,7 +30,7 @@ public class MainPanel {
         mainPanel.add(conversionButton, c);
 
         inputOutputPanel = new IOPanel();
-        scalePanel = new ScalePanel(inputOutputPanel);
+        scalePanel = new ScalePanel(inputOutputPanel, scales);
 
         mainPanel.add(inputOutputPanel.getInputOutputPanel());
         mainPanel.add(scalePanel.getScalePanel());
@@ -42,42 +42,35 @@ public class MainPanel {
         return mainPanel;
     }
 
-    public class ConversionButtonListener implements ActionListener {
+    public void convertTemperature() {
+        for (int i = 0; i < scalePanel.getInputButtons().length; i++) {
+            for (int j = 0; j < scalePanel.getOutputButtons().length; j++) {
+                if (scalePanel.getInputButtons()[i].isSelected() && scalePanel.getOutputButtons()[j].isSelected()) {
+                    String inputFormText = inputOutputPanel.getInputForm().getText();
+                    inputOutputPanel.getInputLabel().setText(inputFormText);
+                    double inputToDouble = Double.parseDouble(inputFormText);
+                    double valueToBase = scalePanel.getScales().get(i).toCelsius(inputToDouble);
+                    double valueFromBase = scalePanel.getScales().get(j).fromCelsius(valueToBase);
+                    setResult(valueFromBase);
+                }
+            }
+        }
+    }
 
+    private void setResult(double valueFromBase) {
+        String valueToString = String.valueOf(valueFromBase);
+        inputOutputPanel.getOutputLabel().setText(valueToString);
+    }
+
+    public class ConversionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!isNumber(inputOutputPanel.getInputForm().getText())) {
                 JOptionPane.showMessageDialog(new JFrame(), "Only numbers are permitted");
+                inputOutputPanel.getInputForm().setText(null);
             } else {
-                String inputFormText = inputOutputPanel.getInputForm().getText();
-                double inputToDouble = Double.parseDouble(inputFormText);
-
-                IScale currentScale = scalePanel.getChosenScale();
-                ArrayList<IScale> scales = scalePanel.getScales();
-
-                if (scalePanel.getCelsiusInput().isSelected() && !scalePanel.getCelsiusOutput().isSelected()) {
-                    double valueConverted = currentScale.fromCelsius(inputToDouble);
-                    setResult(valueConverted);
-                } else if (scalePanel.getCelsiusOutput().isSelected() && !scalePanel.getCelsiusInput().isSelected()) {
-                    double valueConverted = currentScale.toCelsius(inputToDouble);
-                    setResult(valueConverted);
-                } else if (scalePanel.getKelvinInput().isSelected() && scalePanel.getFahrenheitOutput().isSelected()) {
-                    double valueToCelsius = scales.get(0).toCelsius(inputToDouble);
-                    double valueConverted = scales.get(1).fromCelsius(valueToCelsius);
-                    setResult(valueConverted);
-                } else if (scalePanel.getFahrenheitInput().isSelected() && scalePanel.getKelvinOutput().isSelected()) {
-                    double valueToCelsius = scales.get(1).toCelsius(inputToDouble);
-                    double valueConverted = scales.get(0).fromCelsius(valueToCelsius);
-                    setResult(valueConverted);
-                } else {
-                    JOptionPane.showMessageDialog(new JFrame(), "Choose the different buttons FROM and TO to make a conversion");
-                }
+                convertTemperature();
             }
-        }
-
-        private void setResult(double valueConverted) {
-            String valueToString = String.valueOf(valueConverted);
-            inputOutputPanel.getOutputForm().setText(valueToString);
         }
     }
 

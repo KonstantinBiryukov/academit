@@ -1,24 +1,18 @@
 package ru.academit.temperature.view;
 
+import ru.academit.temperature.model.IScale;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class View {
-    public View() {
+    public View(ArrayList<IScale> scales) {
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-// Во view надо будет просто передать список поддерживаемых шкал, на основании них построить UI.
-// И там уже тогда не будет тех if'ов. Шкалы передать в конструктор View
-
-        // from to
-        //  C   C
-        //  F   F
-        //  K   K
-        new Frame().getFrame();
+        new Frame(scales);
     }
 }
