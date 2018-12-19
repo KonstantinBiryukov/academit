@@ -8,8 +8,7 @@ import java.util.ArrayList;
 public class View {
     public View(ArrayList<IScale> scales) {
         try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }

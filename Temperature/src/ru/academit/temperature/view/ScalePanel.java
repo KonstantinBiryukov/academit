@@ -79,12 +79,12 @@ public class ScalePanel {
     }
 
     public void addTextListener(IOPanel inputOutputPanel, JRadioButton[] buttonsArray, ButtonGroup buttonGroup) {
-        for (int i = 0; i < buttonsArray.length; i++) {
-            String s = buttonsArray[i].getText();
+        for (JRadioButton button : buttonsArray) {
+            String s = button.getText();
             if (buttonGroup == inputGroup) {
-                buttonsArray[i].addActionListener(e -> inputOutputPanel.setFrom("From " + s));
+                button.addActionListener(e -> inputOutputPanel.setFrom("From " + s));
             } else {
-                buttonsArray[i].addActionListener(e -> inputOutputPanel.setTo("To " + s));
+                button.addActionListener(e -> inputOutputPanel.setTo("To " + s));
             }
         }
     }

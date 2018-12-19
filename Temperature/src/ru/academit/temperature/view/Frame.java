@@ -16,18 +16,18 @@ public class Frame {
         frame.setVisible(true);
 
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setSize(setWidth(0.5), setHeight(0.5));
-        frame.setMinimumSize(new Dimension(setWidth(0.45), setHeight(0.45)));
+        frame.setSize(getScaledWidth(0.5), getScaledHeight(0.5));
+        frame.setMinimumSize(new Dimension(getScaledWidth(0.45), getScaledHeight(0.45)));
 
         MainPanel panel = new MainPanel(scales);
         frame.add(panel.getMainPanel());
     }
 
-    private int setWidth(double scaleNumber) {
+    private int getScaledWidth(double scaleNumber) {
         return (int) (screenSize.width * scaleNumber);
     }
 
-    private int setHeight(double scaleNumber) {
+    private int getScaledHeight(double scaleNumber) {
         return (int) (screenSize.height * scaleNumber);
     }
 }

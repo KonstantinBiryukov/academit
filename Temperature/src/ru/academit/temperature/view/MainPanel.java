@@ -1,5 +1,6 @@
 package ru.academit.temperature.view;
 
+import ru.academit.temperature.model.Conversion;
 import ru.academit.temperature.model.IScale;
 
 import javax.swing.*;
@@ -42,26 +43,6 @@ public class MainPanel {
         return mainPanel;
     }
 
-    public void convertTemperature() {
-        for (int i = 0; i < scalePanel.getInputButtons().length; i++) {
-            for (int j = 0; j < scalePanel.getOutputButtons().length; j++) {
-                if (scalePanel.getInputButtons()[i].isSelected() && scalePanel.getOutputButtons()[j].isSelected()) {
-                    String inputFormText = inputOutputPanel.getInputForm().getText();
-                    inputOutputPanel.getInputLabel().setText(inputFormText);
-                    double inputToDouble = Double.parseDouble(inputFormText);
-                    double valueToBase = scalePanel.getScales().get(i).toCelsius(inputToDouble);
-                    double valueFromBase = scalePanel.getScales().get(j).fromCelsius(valueToBase);
-                    setResult(valueFromBase);
-                }
-            }
-        }
-    }
-
-    private void setResult(double valueFromBase) {
-        String valueToString = String.valueOf(valueFromBase);
-        inputOutputPanel.getOutputLabel().setText(valueToString);
-    }
-
     public class ConversionButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -69,7 +50,8 @@ public class MainPanel {
                 JOptionPane.showMessageDialog(new JFrame(), "Only numbers are permitted");
                 inputOutputPanel.getInputForm().setText(null);
             } else {
-                convertTemperature();
+                Conversion conversion = new Conversion();
+                conversion.convertTemperature(inputOutputPanel, scalePanel);
             }
         }
     }
