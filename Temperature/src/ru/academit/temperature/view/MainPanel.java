@@ -13,6 +13,9 @@ public class MainPanel {
     private JPanel mainPanel;
     private IOPanel inputOutputPanel;
     private ScalePanel scalePanel;
+    private ArrayList<IScale> chosenScales;
+    private String inputFormText;
+    private Conversion conversion = new Conversion();
 
     public MainPanel(ArrayList<IScale> scales) {
         mainPanel = new JPanel(new GridBagLayout());
@@ -50,10 +53,32 @@ public class MainPanel {
                 JOptionPane.showMessageDialog(new JFrame(), "Only numbers are permitted");
                 inputOutputPanel.getInputForm().setText(null);
             } else {
-                Conversion conversion = new Conversion();
-                conversion.convertTemperature(inputOutputPanel, scalePanel);
+                chooseScale();
+                String temperature = conversion.convertTemperature(chosenScales, inputFormText);
+                inputOutputPanel.getOutputLabel().setText(temperature);
             }
         }
+    }
+
+    private void chooseScale() {
+        chosenScales = new ArrayList<>(2);
+        for (int i = 0; i < scalePanel.getInputButtons().length; i++) {
+            if (scalePanel.getInputButtons()[i].isSelected()) {
+                chosenScales.add(scalePanel.getScales().get(i));
+                inputFormText = inputOutputPanel.getInputForm().getText();
+                inputOutputPanel.getInputLabel().setText(inputFormText);
+            }
+
+            for (int j = 0; j < scalePanel.getOutputButtons().length; j++) {
+                if (scalePanel.getInputButtons()[i].isSelected() && scalePanel.getOutputButtons()[j].isSelected()) {
+                    chosenScales.add(scalePanel.getScales().get(j));
+                }
+            }
+        }
+    }
+
+    public String getTemperature() {
+        return inputFormText;
     }
 
     private static boolean isNumber(String s) {
