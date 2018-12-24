@@ -5,14 +5,12 @@ public class FahrenheitScale implements IScale {
 
     @Override
     public double toCelsius(double from) {
-        double x = (from - FAHRENHEIT_VALUE) * 5.0 / 9;
-        return Math.round(x * 100.0) / 100.0;
+        return (from - FAHRENHEIT_VALUE) * 5.0 / 9;
     }
 
     @Override
     public double fromCelsius(double celsius) {
-        double x = celsius * 9.0 / 5 + FAHRENHEIT_VALUE;
-        return Math.round(x * 100.0) / 100.0;
+        return celsius * 9.0 / 5 + FAHRENHEIT_VALUE;
     }
 
     @Override

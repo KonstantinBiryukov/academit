@@ -13,7 +13,8 @@ public class MainPanel {
     private JPanel mainPanel;
     private IOPanel inputOutputPanel;
     private ScalePanel scalePanel;
-    private ArrayList<IScale> chosenScales;
+    private IScale chosenInputScale;
+    private IScale chosenOutputScale;
     private String inputFormText;
     private Conversion conversion = new Conversion();
 
@@ -54,24 +55,25 @@ public class MainPanel {
                 inputOutputPanel.getInputForm().setText(null);
             } else {
                 chooseScale();
-                String temperature = conversion.convertTemperature(chosenScales, inputFormText);
-                inputOutputPanel.getOutputLabel().setText(temperature);
+                double temperature = conversion.convertTemperature(chosenInputScale, chosenOutputScale, inputFormText);
+                double roundTemperature = Math.round(temperature * 100.0) / 100.0;
+                String outputTemperature = String.valueOf(roundTemperature);
+                inputOutputPanel.getOutputLabel().setText(outputTemperature);
             }
         }
     }
 
     private void chooseScale() {
-        chosenScales = new ArrayList<>(2);
         for (int i = 0; i < scalePanel.getInputButtons().length; i++) {
             if (scalePanel.getInputButtons()[i].isSelected()) {
-                chosenScales.add(scalePanel.getScales().get(i));
+                chosenInputScale = scalePanel.getScales().get(i);
                 inputFormText = inputOutputPanel.getInputForm().getText();
                 inputOutputPanel.getInputLabel().setText(inputFormText);
             }
 
             for (int j = 0; j < scalePanel.getOutputButtons().length; j++) {
                 if (scalePanel.getInputButtons()[i].isSelected() && scalePanel.getOutputButtons()[j].isSelected()) {
-                    chosenScales.add(scalePanel.getScales().get(j));
+                    chosenOutputScale = scalePanel.getScales().get(j);
                 }
             }
         }

@@ -5,14 +5,12 @@ public class KelvinScale implements IScale {
 
     @Override
     public double toCelsius(double from) {
-        double x = from + ABSOLUTE_ZERO;
-        return Math.round(x * 100.0) / 100.0;
+        return from + ABSOLUTE_ZERO;
     }
 
     @Override
     public double fromCelsius(double celsius) {
-        double x = celsius - ABSOLUTE_ZERO;
-        return Math.round(x * 100.0) / 100.0;
+        return celsius - ABSOLUTE_ZERO;
     }
 
     @Override
