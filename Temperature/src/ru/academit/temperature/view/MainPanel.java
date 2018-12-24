@@ -55,7 +55,8 @@ public class MainPanel {
                 inputOutputPanel.getInputForm().setText(null);
             } else {
                 chooseScale();
-                double temperature = conversion.convertTemperature(chosenInputScale, chosenOutputScale, inputFormText);
+                double inputToDouble = Double.parseDouble(inputFormText);
+                double temperature = conversion.convertTemperature(chosenInputScale, chosenOutputScale, inputToDouble);
                 double roundTemperature = Math.round(temperature * 100.0) / 100.0;
                 String outputTemperature = String.valueOf(roundTemperature);
                 inputOutputPanel.getOutputLabel().setText(outputTemperature);
