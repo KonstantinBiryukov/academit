@@ -7,20 +7,17 @@ import ru.academit.minesweeper.model.HiddenFieldMaker;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-// Flood fill algorithm to open the adjacent cells: https://en.wikipedia.org/wiki/Flood_fill
 public class GameField implements IGameActions {
     private JPanel gameFiled;
     private FieldMaker field;
-    private HashMap<JButton, int[]> cells;
-    // private HashMap<JButton, Boolean> currentButton;
+    private Map<JButton, Map.Entry<int[], Boolean>> cells;
     private int[] currentCoordinates;
     private HiddenFieldMaker hiddenField;
     private int[][] hiddenCells;
@@ -28,19 +25,19 @@ public class GameField implements IGameActions {
     private int x;
     private int y;
     private boolean isFirstClickMade = false;
-    private boolean isGameOver = false;
     private int fieldSize;
     private int bombs;
     private int cellsLength;
     private int notPressedButtons;
     private JLabel clock;
     private Timer timer;
-    public final static int ONE_SECOND = 1000;
+    private final static int ONE_SECOND = 1000;
     private int currentScores = 0;
     private int finalScores = 0;
     private String playerName;
     private int flags;
-    private boolean isFlagUp = false;
+    private String flagsNumberString;
+    private JLabel flagsNumber;
 
     public GameField(int fieldSize, int bombs) {
         this.fieldSize = fieldSize;
@@ -58,7 +55,6 @@ public class GameField implements IGameActions {
     private void init() {
         field = new FieldMaker(fieldSize);
         cellsLength = field.getCells().length;
-        cells = new HashMap<>();
         hiddenField = new HiddenFieldMaker(fieldSize, bombs);
         gameFiled = new JPanel(new GridLayout(cellsLength + 1, cellsLength)); //+1 for user interface
     }
@@ -69,12 +65,12 @@ public class GameField implements IGameActions {
         String bombsNumberString = String.valueOf(bombs);
         JLabel bombsNumber = new JLabel(bombsNumberString);
         JLabel flagsTitle = new JLabel("Flags");
-        String flagsNumberString = String.valueOf(flags);
-        JLabel flagsNumber = new JLabel(flagsNumberString);
+        flagsNumberString = String.valueOf(flags);
+        flagsNumber = new JLabel(flagsNumberString);
 
         JLabel timerTitle = new JLabel("Time");
         clock = new JLabel("0");
-        JLabel bestScoresTitle = new JLabel("BestScores");
+        JLabel bestScoresTitle = new JLabel();
         JLabel bestScores = new JLabel();
         JButton restartButton = new JButton("RESTART");
 
@@ -95,16 +91,16 @@ public class GameField implements IGameActions {
     }
 
     private void createField() {
+        cells = new HashMap<>();
         // assign picture and action_listener to each button in the field;
         for (int i = 0; i < cellsLength; i++) {
             for (int j = 0; j < cellsLength; j++) {
                 currentCoordinates = new int[]{i, j};
-                //cellButton = new CellButton(new JButton(), isFlagUp);
                 currentButton = new JButton();
-                cells.put(currentButton, currentCoordinates);
+                cells.put(currentButton, new AbstractMap.SimpleEntry(currentCoordinates, false));
+
                 int newCellsLength = cellsLength * 3;
                 currentButton.setPreferredSize(new Dimension(newCellsLength, newCellsLength));
-
                 try {
                     BufferedImage cellImg = ImageIO.read
                             (new File("/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/" +
@@ -144,6 +140,10 @@ public class GameField implements IGameActions {
 
     @Override
     public void openCells(int x, int y) {
+        if (cells.get(currentButton).getValue()) {
+            flags++;
+            flagsUpdate();
+        }
         if (hiddenCells[x][y] > 8 && currentButton.getIcon() != null) { // a cell has no neighbours, empty space.
             currentButton.setIcon(null);
             notPressedButtons--;
@@ -175,14 +175,20 @@ public class GameField implements IGameActions {
         checkEmptyNeighbors(x + 1, y + 1);
     }
 
-    @Override  // the basis of this method is a flood-fill-algorithm, but with some extra logic.
+    // Flood fill algorithm to open the adjacent cells: https://en.wikipedia.org/wiki/Flood_fill
+    // the basis of this method is a flood-fill-algorithm, but with some extra logic.
+    @Override
     public void checkEmptyNeighbors(int x, int y) {
         if (x >= 0 && y >= 0 && y < fieldSize && x < fieldSize) {
             if (hiddenCells[x][y] != 0) {
                 for (JButton button : cells.keySet()) {
-                    if (Arrays.equals(cells.get(button), new int[]{x, y})) {
+                    if (Arrays.equals(cells.get(button).getKey(), new int[]{x, y})) {
                         currentButton = button;
                         if (hiddenCells[x][y] > 8 && currentButton.getIcon() != null) {
+                            if (cells.get(currentButton).getValue()) {
+                                flags++;
+                                flagsUpdate();
+                            }
                             currentButton.setIcon(null);
                             notPressedButtons--;
                             checkEmptyNeighbors(x - 1, y - 1);
@@ -222,8 +228,8 @@ public class GameField implements IGameActions {
 
     @Override
     public void openAllCells() {
-        for (Map.Entry<JButton, int[]> cells : cells.entrySet()) {
-            int[] currentCoordinates = cells.getValue();
+        for (Map.Entry<JButton, Map.Entry<int[], Boolean>> cells : cells.entrySet()) {
+            currentCoordinates = cells.getValue().getKey();
             int currentX = currentCoordinates[0];
             int currentY = currentCoordinates[1];
             if (hiddenCells[currentX][currentY] > 8) {
@@ -244,17 +250,32 @@ public class GameField implements IGameActions {
         @Override
         public void mousePressed(MouseEvent e) {
             currentButton = (JButton) e.getSource();
-            int[] currentCoordinates = cells.get(currentButton);
+            int[] currentCoordinates = cells.get(currentButton).getKey();
             x = currentCoordinates[0];
             y = currentCoordinates[1];
 
-            if (SwingUtilities.isRightMouseButton(e)) {
-                if (currentButton.getIcon() != null) {
+            if (SwingUtilities.isRightMouseButton(e) && currentButton.getIcon() != null) {
+                if (!cells.get(currentButton).getValue()) {
+                    if (flags == 0) {
+                        return;
+                    }
                     addPicture(currentButton, "/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/" +
                             "ru/academit/minesweeper/resources/flag.jpeg", "F");
+                    cells.get(currentButton).setValue(true);
                     flags--;
-                } else if (currentButton.getIcon() == null) {
+                    flagsUpdate();
+                } else {
+                    try {
+                        BufferedImage cellImg = ImageIO.read
+                                (new File("/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/" +
+                                        "ru/academit/minesweeper/resources/square.png"));
+                        currentButton.setIcon(new ImageIcon(cellImg));
+                    } catch (IOException e1) {
+                        currentButton.setText("[ ]"); // if the picture doesn't appear
+                    }
+                    cells.get(currentButton).setValue(false);
                     flags++;
+                    flagsUpdate();
                 }
             }
         }
@@ -264,7 +285,7 @@ public class GameField implements IGameActions {
         @Override
         public void actionPerformed(ActionEvent event) {
             currentButton = (JButton) event.getSource();
-            int[] currentCoordinates = cells.get(currentButton);
+            int[] currentCoordinates = cells.get(currentButton).getKey();
             x = currentCoordinates[0];
             y = currentCoordinates[1];
             if (!isFirstClickMade) { // unique event for the first mouse click
@@ -279,7 +300,6 @@ public class GameField implements IGameActions {
                 scoresDialog();
                 endGame("YOU WON!", "Congratulations, " + playerName + "! Your scores: " + finalScores,
                         "/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/ru/academit/minesweeper/resources/win.png");
-
             }
         }
     }
@@ -326,7 +346,6 @@ public class GameField implements IGameActions {
 
     //@Override
     public void endGame(String title, String text, String imageLink) {
-        isGameOver = true;
         openAllCells();
 
         String textMessage = text + System.lineSeparator() +
@@ -370,5 +389,10 @@ public class GameField implements IGameActions {
         } catch (IOException e) {
             button.setText(textReplacement); // if the picture is not read - "Plan B"
         }
+    }
+
+    private void flagsUpdate() {
+        flagsNumberString = String.valueOf(flags);
+        flagsNumber.setText(flagsNumberString);
     }
 }

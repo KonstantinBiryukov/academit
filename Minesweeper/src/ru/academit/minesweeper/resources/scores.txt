@@ -10,3 +10,5 @@ winner: 78
 badass: 77
 Ivan Petrovich Ivanov: 79
 игрок: 96
+cool: 70
+SФ3: 72

@@ -7,8 +7,8 @@ import ru.academit.minesweeper.model.HiddenFieldMaker;
 import java.util.Scanner;
 
 public class GameFieldText implements IGameActions {
-    HiddenFieldMaker hiddenField;
-    FieldMaker fieldMaker;
+    private HiddenFieldMaker hiddenField;
+    private FieldMaker fieldMaker;
     private int fieldSize = 9;
     private int bombsNumber = 10;
     private int[][] hiddenCells;
