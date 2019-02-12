@@ -23,7 +23,7 @@ public class HiddenFieldMaker {
         createHiddenField();
     }
 
-    public void createHiddenField() {
+    private void createHiddenField() {
         int count = 9; // 0-8 are reserved for bombs and neighbors
         hiddenCells = new int[fieldSize][fieldSize];
         for (int i = 0; i < hiddenCells.length; i++) {
@@ -57,7 +57,11 @@ public class HiddenFieldMaker {
                 i--;
                 continue;
             }
-            hiddenCells[randomX][randomY] = bombs[i];
+            if (hiddenCells[randomX][randomY] != 0) {
+                hiddenCells[randomX][randomY] = bombs[i];
+            } else {
+                i--;
+            }
         }
     }
 
@@ -108,14 +112,14 @@ public class HiddenFieldMaker {
     }
 
     /**
-     * Print all cells to the screen. Use it if you need to see the
+     * Print all cells onto the screen. Use it if you need to see the
      * whole hidden filed to make testing more convenient for the console version.
      */
     @Deprecated // use only for testing
     public void printHiddenField(int[][] cells) {
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                System.out.print(cells[i][j] + " ");
+        for (int[] cell : cells) {
+            for (int aCell : cell) {
+                System.out.print(aCell + " ");
             }
             System.out.println();
         }

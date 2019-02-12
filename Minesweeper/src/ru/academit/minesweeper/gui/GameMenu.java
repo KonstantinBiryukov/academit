@@ -63,8 +63,8 @@ public class GameMenu extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             List<HighScores> scores = new ArrayList<>(10);
-            try (Scanner scanner = new Scanner(new FileInputStream("/Users/konstantinbiriukov/IdeaProjects/academit" +
-                    "/Minesweeper/src/ru/academit/minesweeper/resources/scores.txt"))) {
+            try (Scanner scanner = new Scanner
+                    (new FileInputStream("Minesweeper/src/ru/academit/minesweeper/resources/scores.txt"))) {
                 while (scanner.hasNextLine()) {
                     String s = scanner.nextLine();
                     String[] currentInfo = s.split(": "); // name: score;
@@ -100,7 +100,7 @@ public class GameMenu extends JFrame {
                 String result = sb.toString()
                         .replace("[", "")
                         .replace("]", "");
-                ImageIcon boardIcon = new ImageIcon("/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/ru/academit/minesweeper/resources/boardIcon.png");
+                ImageIcon boardIcon = new ImageIcon("Minesweeper/src/ru/academit/minesweeper/resources/boardIcon.png");
                 JOptionPane.showMessageDialog(null, result, "scoreboard - TOP_10", 1, boardIcon);
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
@@ -128,17 +128,13 @@ public class GameMenu extends JFrame {
             gameMenu.revalidate();
 
             class TextFrameThread implements Runnable {
-
                 @Override
                 public void run() {
-                    GameFieldText gameFieldText = new GameFieldText(); // вопрос по стилю кода = выделять ли память тут ?
+                    GameFieldText gameFieldText = new GameFieldText();
                 }
             }
-
             Thread t = new Thread(new TextFrameThread());
             t.start();
-            //TODO: многопоточность нужно грамотно реализовать, обеспечить синхронизированный доступ к данным
-            //gameFrame.getGameFrame().setExtendedState(JFrame.ICONIFIED);
         }
     }
 }

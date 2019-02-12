@@ -55,12 +55,12 @@ public class SetupScreen {
 
         try {
             BufferedImage happyBombImg = ImageIO.read
-                    (new File("/Users/konstantinbiriukov/IdeaProjects/academit/" +
-                            "Minesweeper/src/ru/academit/minesweeper/resources/welcomeLabel.jpeg"));
+                    (new File("Minesweeper/src/ru/academit/minesweeper/resources/welcomeLabel.jpeg"));
             JLabel setupPicture = new JLabel(new ImageIcon(happyBombImg));
             setupScreen.add(setupPicture);
             setupPicture.setAlignmentX(Component.CENTER_ALIGNMENT);
         } catch (IOException ignored) {
+            // there's no picture if reading a file is impossible
         }
 
         setupScreen.add(next);
@@ -84,7 +84,6 @@ public class SetupScreen {
                 GameField gameField = new GameField(fieldSize, bombNumbers);
                 setupScreen.add(gameField.getGameField());
 
-                saveSettings();
                 setupScreen.repaint();
                 setupScreen.revalidate();
             } else if (dialogResult == JOptionPane.YES_OPTION) {
@@ -118,7 +117,6 @@ public class SetupScreen {
                 ok.setAlignmentX(Component.CENTER_ALIGNMENT);
                 ok.addActionListener(new OkButtonListener());
 
-                saveSettings();
                 setupScreen.repaint();
                 setupScreen.revalidate();
             }
@@ -177,9 +175,5 @@ public class SetupScreen {
 
     public JPanel getSetupScreen() {
         return setupScreen;
-    }
-
-    public void saveSettings() {
-
     }
 }

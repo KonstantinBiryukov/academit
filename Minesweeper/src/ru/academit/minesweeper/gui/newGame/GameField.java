@@ -49,7 +49,8 @@ public class GameField implements IGameActions {
         createField();
     }
 
-    public GameField() {
+    public JPanel getGameField() {
+        return gameFiled;
     }
 
     private void init() {
@@ -70,9 +71,10 @@ public class GameField implements IGameActions {
 
         JLabel timerTitle = new JLabel("Time");
         clock = new JLabel("0");
-        JLabel bestScoresTitle = new JLabel();
-        JLabel bestScores = new JLabel();
+        JLabel emptyLabel1 = new JLabel(); // to get some place for UI top line.
+        JLabel emptyLabel2 = new JLabel();
         JButton restartButton = new JButton("RESTART");
+        restartButton.addActionListener(e -> restartRequest());
 
         gameFiled.add(bombsTitle);
         gameFiled.add(bombsNumber);
@@ -84,8 +86,8 @@ public class GameField implements IGameActions {
         gameFiled.add(clock);
         timer = new Timer(ONE_SECOND, e -> clock.setText((Integer.parseInt(clock.getText()) + 1) + ""));
 
-        gameFiled.add(bestScoresTitle);
-        gameFiled.add(bestScores);
+        gameFiled.add(emptyLabel1);
+        gameFiled.add(emptyLabel2);
 
         gameFiled.add(restartButton);
     }
@@ -103,8 +105,7 @@ public class GameField implements IGameActions {
                 currentButton.setPreferredSize(new Dimension(newCellsLength, newCellsLength));
                 try {
                     BufferedImage cellImg = ImageIO.read
-                            (new File("/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/" +
-                                    "ru/academit/minesweeper/resources/square.png"));
+                            (new File("Minesweeper/src/ru/academit/minesweeper/resources/square.png"));
                     currentButton.setIcon(new ImageIcon(cellImg));
                 } catch (IOException e) {
                     currentButton.setText("[ ]"); // if the picture doesn't appear
@@ -135,7 +136,6 @@ public class GameField implements IGameActions {
 
     @Override
     public void click(int x, int y) {
-
     }
 
     @Override
@@ -144,7 +144,7 @@ public class GameField implements IGameActions {
             flags++;
             flagsUpdate();
         }
-        if (hiddenCells[x][y] > 8 && currentButton.getIcon() != null) { // a cell has no neighbours, empty space.
+        if (hiddenCells[x][y] > 8 && currentButton.getIcon() != null) { // a cell has no neighbours; empty space.
             currentButton.setIcon(null);
             notPressedButtons--;
             openNeighborEmptyCells(x, y);
@@ -155,10 +155,10 @@ public class GameField implements IGameActions {
             currentButton.setFont(new Font("Arial", Font.PLAIN, 40));
             currentButton.setText(adjacentBombsNumber);
         } else if (hiddenCells[x][y] == 0) {
-            addPicture(currentButton, "/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper" +
-                    "/src/ru/academit/minesweeper/resources/bomb_pic.jpeg", "BOMB");
-            endGame("GAME OVER", "YOU LOST",
-                    "/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/ru/academit/minesweeper/resources/lose.jpg");
+            addPicture(currentButton, "Minesweeper/src/ru/academit/minesweeper/resources/bomb_pic.jpeg",
+                    "BOMB");
+            endGame("GAME OVER", "YOU LOST!",
+                    "Minesweeper/src/ru/academit/minesweeper/resources/lose.jpg");
         }
     }
 
@@ -214,14 +214,13 @@ public class GameField implements IGameActions {
 
     @Override
     public void endGame() {
-
     }
 
     private void restartRequest() {
         gameFiled.removeAll();
         SetupScreen setupScreen = new SetupScreen(); // to call chosen preceding settings
-        GameField gameField = new GameField(setupScreen.getFieldSize(), setupScreen.getBombNumbers());
-        gameFiled.add(gameField.getGameField());
+        GameField gF = new GameField(setupScreen.getFieldSize(), setupScreen.getBombNumbers());
+        gameFiled.add(gF.getGameField());
         gameFiled.repaint();
         gameFiled.revalidate();
     }
@@ -240,8 +239,8 @@ public class GameField implements IGameActions {
                 cells.getKey().setFont(new Font("Arial", Font.PLAIN, 40));
                 cells.getKey().setText(adjacentBombsNumber);
             } else if (hiddenCells[x][y] == 0) {
-                addPicture(cells.getKey(), "/Users/konstantinbiriukov/IdeaProjects/" +
-                        "academit/Minesweeper/src/ru/academit/minesweeper/resources/bomb_pic.jpeg", "BOMB");
+                addPicture(cells.getKey(), "Minesweeper/src/ru/academit/minesweeper/resources/bomb_pic.jpeg",
+                        "BOMB");
             }
         }
     }
@@ -259,16 +258,15 @@ public class GameField implements IGameActions {
                     if (flags == 0) {
                         return;
                     }
-                    addPicture(currentButton, "/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/" +
-                            "ru/academit/minesweeper/resources/flag.jpeg", "F");
+                    addPicture(currentButton, "Minesweeper/src/ru/academit/minesweeper/resources/flag.jpeg",
+                            "F");
                     cells.get(currentButton).setValue(true);
                     flags--;
                     flagsUpdate();
                 } else {
                     try {
                         BufferedImage cellImg = ImageIO.read
-                                (new File("/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/" +
-                                        "ru/academit/minesweeper/resources/square.png"));
+                                (new File("Minesweeper/src/ru/academit/minesweeper/resources/square.png"));
                         currentButton.setIcon(new ImageIcon(cellImg));
                     } catch (IOException e1) {
                         currentButton.setText("[ ]"); // if the picture doesn't appear
@@ -299,7 +297,7 @@ public class GameField implements IGameActions {
                 timer.stop();
                 scoresDialog();
                 endGame("YOU WON!", "Congratulations, " + playerName + "! Your scores: " + finalScores,
-                        "/Users/konstantinbiriukov/IdeaProjects/academit/Minesweeper/src/ru/academit/minesweeper/resources/win.png");
+                        "Minesweeper/src/ru/academit/minesweeper/resources/win.png");
             }
         }
     }
@@ -333,8 +331,8 @@ public class GameField implements IGameActions {
     }
 
     private void saveScores() {
-        try (FileWriter scoreWriter = new FileWriter("/Users/konstantinbiriukov/IdeaProjects/academit" +
-                "/Minesweeper/src/ru/academit/minesweeper/resources/scores.txt", true)) {
+        try (FileWriter scoreWriter = new FileWriter("Minesweeper/src/ru/academit/minesweeper/resources/scores.txt",
+                true)) {
             if (playerName.contains(":")) {
                 playerName = playerName.replace(":", "-");
             }
@@ -344,7 +342,6 @@ public class GameField implements IGameActions {
         }
     }
 
-    //@Override
     public void endGame(String title, String text, String imageLink) {
         openAllCells();
 
@@ -373,11 +370,6 @@ public class GameField implements IGameActions {
             restartRequest();
         }
     }
-
-    public JPanel getGameField() {
-        return gameFiled;
-    }
-
 
     private void addPicture(JButton button, String mainLink, String textReplacement) {
         try {
