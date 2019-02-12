@@ -12,3 +12,4 @@ Ivan Petrovich Ivanov: 79
 игрок: 96
 cool: 70
 SФ3: 72
+null: 58

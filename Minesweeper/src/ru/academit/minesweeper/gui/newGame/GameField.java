@@ -333,7 +333,7 @@ public class GameField implements IGameActions {
     private void saveScores() {
         try (FileWriter scoreWriter = new FileWriter("Minesweeper/src/ru/academit/minesweeper/resources/scores.txt",
                 true)) {
-            if (playerName.contains(":")) {
+            if (playerName != null && playerName.contains(":")) {
                 playerName = playerName.replace(":", "-");
             }
             scoreWriter.write(playerName + ": " + finalScores + System.lineSeparator());
