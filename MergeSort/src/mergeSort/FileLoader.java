@@ -1,23 +1,20 @@
 package mergeSort;
-
-import mergeSort.main.Main;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-public class LoadClasses {
+public class FileLoader {
     private String[] linksArray;
     private String[] s;
 
-    public LoadClasses(String[] linksArray) {
+    public FileLoader(String[] linksArray) {
         this.linksArray = linksArray;
     }
 
-    public int[] loadIntegers(Main.DataType dataType) {
+    public int[] loadIntegers() {
         StringBuilder fileContent = new StringBuilder();
-        for (int i = 0; i < linksArray.length; i++) {
-            try (Scanner scanner = new Scanner(new FileReader(linksArray[i]))) {
+        for (String aLinksArray : linksArray) {
+            try (Scanner scanner = new Scanner(new FileReader(aLinksArray))) {
                 while (scanner.hasNextLine()) {
                     fileContent.append(scanner.nextLine()).append(", ");
                 }
@@ -30,15 +27,14 @@ public class LoadClasses {
         for (int i = 0; i < s.length; i++) {
             integers[i] = Integer.parseInt(s[i]);
         }
-        SortIntegersDescending sortIntegersDescending = new SortIntegersDescending();
-        return sortIntegersDescending.mergeSort(integers);
+        IntegersSorting integersSorting = new IntegersSorting();
+        return integersSorting.mergeSort(integers);
     }
 
     public String[] loadStrings() {
-
         StringBuilder fileContent = new StringBuilder();
-        for (int i = 0; i < linksArray.length; i++) {
-            try (Scanner scanner = new Scanner(new FileReader(linksArray[i]))) {
+        for (String aLinksArray : linksArray) {
+            try (Scanner scanner = new Scanner(new FileReader(aLinksArray))) {
                 while (scanner.hasNextLine()) {
                     fileContent.append(scanner.nextLine()).append(", ");
                 }
@@ -47,8 +43,23 @@ public class LoadClasses {
             }
         }
         s = fileContent.toString().split(", ");
-        String[] strings = new String[s.length];
-        SortStringsDescending sortStringsDescending = new SortStringsDescending();
-        return sortStringsDescending.mergeSort(s);
+        StringsSorting stringsSorting = new StringsSorting();
+        return stringsSorting.mergeSort(s);
+    }
+
+    public void reverseIntArray(int[] arr) {
+        for (int i = 0; i < arr.length / 2; i++) {
+            int container = arr[i];
+            arr[i] = arr[arr.length - 1 - i];
+            arr[arr.length - 1 - i] = container;
+        }
+    }
+
+    public void reverseStringArray(String[] arr) {
+        for (int i = 0; i < arr.length / 2; i++) {
+            String container = arr[i];
+            arr[i] = arr[arr.length - 1 - i];
+            arr[arr.length - 1 - i] = container;
+        }
     }
 }

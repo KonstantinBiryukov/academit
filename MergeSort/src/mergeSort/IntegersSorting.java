@@ -1,6 +1,6 @@
 package mergeSort;
 
-public class SortIntegersDescending {
+public class IntegersSorting {
 
     public int[] mergeSort(int[] array) {
         if (array.length <= 1) { // base method for recursive control

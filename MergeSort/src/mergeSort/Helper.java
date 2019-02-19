@@ -1,7 +1,6 @@
 package mergeSort;
 
 public class Helper {
-
     public void printHelper() {
         System.out.println("Welcome to merge_sort!" + System.lineSeparator() +
                 "Use 4 arguments(special set of keys) to choose appropriate settings: " + System.lineSeparator() +

@@ -1,6 +1,6 @@
 package mergeSort;
 
-public class SortStringsDescending {
+public class StringsSorting {
 
     public String[] mergeSort(String[] array) {
         if (array.length <= 1) { // base method for recursive control
@@ -44,4 +44,3 @@ public class SortStringsDescending {
         return result;
     }
 }
-
